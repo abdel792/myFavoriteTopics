@@ -1,0 +1,270 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: myFavoriteTopics 1.0-dev\n"
+"Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
+"POT-Creation-Date: 2020-12-19 23:23+0100\n"
+"PO-Revision-Date: 2020-12-19 23:35+0100\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: fr\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: .\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: D:/myFavoriteTopics/myFavoriteTopics-1.0/"
+"myFavoriteTopics-1.0/addon/globalPlugins\n"
+
+#. Translators: Item in the tools menu for the Addon myFavoriteTopics.
+#: addon\globalPlugins\myFavoriteTopics\__init__.py:25
+msgid "&My favorite topics..."
+msgstr "&Mes rubriques favorites..."
+
+#. Translators: Message presented in input help mode.
+#: addon\globalPlugins\myFavoriteTopics\__init__.py:68
+msgid "Allows you to display the dialog box to select uour favorite topics."
+msgstr ""
+"Vous permet d'afficher une boîte de dialogue vous permettant de sélectionner "
+"vos rubriques favorites."
+
+#: addon\globalPlugins\myFavoriteTopics\__init__.py:69
+msgid "Allows you to display a dialog box to select your favorite websites"
+msgstr ""
+"Vous permet d'afficher une boîte de dialogue pour sélectionner vos sites web "
+"favoris."
+
+#: addon\globalPlugins\myFavoriteTopics\__init__.py:70
+msgid ""
+"Allows you to display a dialog box to select your favorite applications or "
+"directories"
+msgstr ""
+"Vous permet d'afficher une boîte de dialogue pour sélectionner vos "
+"applications ou répertoires favoris."
+
+#: addon\globalPlugins\myFavoriteTopics\__init__.py:71
+msgid "Allows you to display a dialog box to select your favorite contacts"
+msgstr ""
+"Vous permet d'afficher une boîte de dialogue pour sélectionner vos contacts "
+"favoris."
+
+#: addon\globalPlugins\myFavoriteTopics\__init__.py:72
+msgid ""
+"Allows you to display a dialog box to select your favorite journal websites"
+msgstr ""
+"Vous permet d'afficher une boîte de dialogue pour sélectionner vos journaux "
+"favoris."
+
+#. Translators: The title of the favorite topics dialog.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:29
+msgid "My favorite topics"
+msgstr "Mes rubriques favorites"
+
+#. Translators: The label of a button to display the list of the favorite websites.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:34
+msgid "Display my favorite &websites"
+msgstr "Afficher mes &sites favoris"
+
+#. Translators: The label of a button to display the list of the favorite applications or directories.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:39
+msgid "Display my favorite &applications"
+msgstr "Afficher mes &applications favorites"
+
+#. Translators: The label of a button to display the list of the favorite contacts.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:44
+msgid "Display my favorite &contacts"
+msgstr "Afficher mes &contacts favoris"
+
+#. Translators: The label of a button to display the list of the favorite journal websites.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:49
+msgid "Display my favorite &journal websites"
+msgstr "Afficher mes &journaux favoris"
+
+#. Translators: The label of a button to close the dialog.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:55
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:149
+msgid "&Close"
+msgstr "&Fermer"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:104
+msgid "favorite websites"
+msgstr "sites web favoris"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:104
+msgid "Websites"
+msgstr "Sites"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:106
+msgid "favorite applications or directories"
+msgstr "applications ou répertoires favoris"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:106
+msgid "Applications or directories"
+msgstr "Applications ou répertoires"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:108
+msgid "favorite contacts"
+msgstr "contacts favoris"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:108
+msgid "Contacts"
+msgstr "Contacts"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:110
+msgid "favorite journal websites"
+msgstr "journaux favoris"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:110
+msgid "journal websites"
+msgstr "journaux favoris"
+
+#. Translators: The title of the topics dialog.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:112
+#, python-brace-format
+msgid "My {theTopics}"
+msgstr "Mes {theTopics}"
+
+#. Translators: The label of a button to open an element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:127
+msgid "&Open"
+msgstr "&Ouvrir"
+
+#. Translators: The label of a button to create a new element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:132
+msgid "&Add"
+msgstr "&Ajouter"
+
+#. Translators: The label of a button to rename an element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:136
+msgid "&Rename the key"
+msgstr "&Renommer la clé"
+
+#. Translators: The label of a button to modify the value of an item in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:140
+msgid "&Modify value"
+msgstr "&Modifier la valeur"
+
+#. Translators: The label of a button to remove an item in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:144
+msgid "&Delete"
+msgstr "&Supprimer"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:185
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:217
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:255
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:288
+msgid "No selection found ! Please select an item in the list"
+msgstr ""
+"Aucune sélection ! Veuillez sélectionner d'abord un élément dans la liste"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:186
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:218
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:256
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:289
+msgid "No selection"
+msgstr "Pas de sélection"
+
+#. Translators: The confirmation prompt displayed when the user requests to delete an element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:192
+#, python-brace-format
+msgid "Are you sure you want to delete {theKey}?"
+msgstr "Êtes-vous sur de vouloir supprimer {theKey}?"
+
+#. Translators: The title of the confirmation dialog for deletion of an element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:194
+msgid "Confirm Deletion"
+msgstr "Confirmer la suppression"
+
+#. Translators: An error displayed when deleting an element fails.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:204
+msgid "Error deleting element."
+msgstr "Erreur dans la suppression"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:205
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:232
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:238
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:244
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:273
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:279
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:350
+msgid "Error"
+msgstr "Erreur"
+
+#. Translators: The label of a field to enter a new name for the key.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:224
+msgid "New name:"
+msgstr "Nouveau nom :"
+
+#. Translators: The title of the dialog to rename the key.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:226
+msgid "Rename the key"
+msgstr "Renommer la clé"
+
+#. Translators: An error displayed when the key already exists.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:232
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:350
+msgid "This name already exists. Please choose a different name"
+msgstr "Ce nom existe déjà. Sélectionnez un nouveau nom"
+
+#. Translators: An error displayed when renaming a key fails.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:237
+msgid "Can not rename this key."
+msgstr "Impossible de renommer cette clé"
+
+#. Translators: An error displayed when renaming a key fails.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:243
+msgid "Error renaming key."
+msgstr "Erreur dans le renommage de la clé"
+
+#. Translators: The label of a field to enter a new value for the key.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:262
+msgid "New value:"
+msgstr "Nouvelle valeur :"
+
+#. Translators: The title of the dialog to modify the value.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:264
+msgid "Modify the value"
+msgstr "Modifier la valeur"
+
+#. Translators: An error displayed when the modification fails.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:272
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:278
+msgid "Can not modify the value."
+msgstr "Impossible de modifier cette valeur"
+
+#. We are looking for a contact.
+#. Translators: We display the phone number of the selected contact in a messageBox.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:307
+#, python-brace-format
+msgid "The phone number of {theName} is {theNumber}"
+msgstr "Le numéro de téléphone de {theName} est {theNumber}"
+
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:307
+msgid "The phone number"
+msgstr "Le numéro de téléphone"
+
+#. Translators: The title of the dialog to create a new element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:322
+msgid "New element"
+msgstr "Nouvel élément"
+
+#. Translators: The label of a field to enter the name of a new element in the topics list.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:327
+msgid "Element name:"
+msgstr "Nom de l'élément :"
+
+#. Translators: The label of a field to enter the value of the new element.
+#: addon\globalPlugins\myFavoriteTopics\dialogs.py:333
+msgid "Element value:"
+msgstr "Valeur de l'élément :"
+
+#. Add-on description
+#. Translators: Long description to be shown for this add-on on add-on information from add-ons manager
+#: buildVars.py:20
+msgid ""
+"Allows you to display and consult a list of websites, contacts, journals or "
+"applications that you can modify to your liking."
+msgstr ""
+"Vous permet d'afficher et de consulter une liste de sites web, contacts, "
+"journaux ou applications que vous pourrez modifier à votre guise."
