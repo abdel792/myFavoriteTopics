@@ -17,23 +17,46 @@ def getConfig():
 	_config = configobj.ConfigObj(CONFIG_FILE_PATH, encoding="UTF-8")
 	return _config
 
-def renameKey(section, oldKey, newKey):
+def renameItem(section, oldKey, newKey, subsection = None):
 	conf = getConfig()
-	conf[section].rename(oldKey, newKey)
+	if subsection:
+		conf[section][subsection].rename(oldKey, newKey)
+	else:
+		conf[section].rename(oldKey, newKey)
 	conf.write()
 
-def getKeyFromValue(section, value):
+def getSubsectionsFromSection(section, exc = None):
 	conf = getConfig()
-	key = conf[section].keys()[conf[section].values().index(value)]
-	return key
+	sbList = []
+	for sb in conf[section].keys():
+		if isinstance(conf[section][sb], configobj.Section):
+			if not sb == exc:
+				sbList.append(sb)
+	return sbList
 
-def modifyValue(section, key, value):
+def modifyValue(section, key, value, subsection = None):
 	conf = getConfig()
-	conf[section][key] = value
+	if subsection:
+		conf[section][subsection][key] = value
+	else:
+		conf[section][key] = value
 	conf.write()
 	return True
 
-def delItem(section, key):
+def delItem(section, key, subsection = None):
 	conf = getConfig()
-	del(conf[section][key])
+	if subsection:
+		del(conf[section][subsection][key])
+	else:
+		del(conf[section][key])
 	conf.write()
+
+def getSubsectionsOrKeysList(section):
+	conf = getConfig()
+	theList = []
+	for item in conf[section].items():
+		if isinstance(item, configobj.Section):
+			theList.append(item)
+		elif isinstance(item, tuple):
+			theList.append(item[0])
+	return theList

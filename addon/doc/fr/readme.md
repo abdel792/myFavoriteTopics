@@ -1,9 +1,9 @@
 # My favorite topics #
-# Version 1.0 #
+# Version 1.1-dev #
 
 * Auteurs : Abderrahim, Abdel.
-* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.0/myFavoriteTopics-1.0.nvda-addon)
-* télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.0-dev/myFavoriteTopics-1.0-dev.nvda-addon)
+* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1/myFavoriteTopics-1.1.nvda-addon)
+* télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1-dev/myFavoriteTopics-1.1-dev.nvda-addon)
 
 Cet addon devrait vous permettre d'afficher et de consulter vos rubriques favorites.
 
@@ -26,18 +26,29 @@ Lorsque vous presser sur l'un des boutons correspondant à une rubrique, vous de
 
 * Une liste d'items, parmi lesquels vous pourrez circuler avec vos flèches verticales.
 * Un bouton "Ouvrir", qui devrait vous permettre d'accéder au contenu de l'item sélectionné dans la liste.
-* Un bouton "Ajouter", qui devrait vous permettre d'ajouter un nouvel élément dans la liste.
-* Un bouton "Renommer la clé", qui devrait vous permettre de renommer l'item sélectionné dans la liste.
-* Un bouton "Modifier la valeur", qui devrait vous permettre de modifier la valeur de la clé correspondant à l'item sélectionné dans la liste.
-* Un bouton "Supprimer", qui devrait vous permettre de supprimer l'élément sélectionné dans la liste.
+* Un bouton "Ajouter un nouveau groupe", qui devrait vous permettre d'ajouter un nouveau groupe dans la liste.
+* Un bouton "Ajouter une nouvelle clé", qui devrait vous permettre d'ajouter une nouvelle clé dans la liste.
+* Un bouton "Renommer le groupe", qui devrait vous permettre de renommer le groupe sélectionné dans la liste. (Cet item ne s'affiche que si l'élément sélectionné est un groupe)
+* Un bouton "Renommer la clé", qui devrait vous permettre de renommer la clé sélectionnée dans la liste. (Cet item ne s'affiche que si l'élément sélectionné est une clé)
+* Un bouton "Modifier la valeur", qui devrait vous permettre de modifier la valeur de la clé correspondant à l'item sélectionné dans la listge. (Cet item ne s'affiche que si l'élément sélectionné est une clé)
+* Un bouton "Déplacer vers un groupe", qui devrait vous permettre de déplacer la clé sélectionnée dans la liste vers un groupe. (Cet item ne s'affiche que si l'élément sélectionné est une clé)
+* Un bouton "Supprimer", qui devrait vous permettre de supprimer l'élément sélectionné dans la liste. Si l'élément est un groupe, tout le contenu de ce groupe sera supprimé.
 * Un bouton "Fermer", pour refermer la boîte de dialogue.
 
 ## Notes ##
 
 * Vous pourrez presser la touche d'échappement pour refermer chacune de ces boîtes de dialogue, et revenir ainsi à la boîte de dialogue présentant les boutons d'accès aux rubriques.
-* Vous pourrez assigner un raccourci clavier pour ouvrir chacune de ces boîtes de dialogue dans le menu "Gestes de commandes" et plus précisément, dans la catégorie "Outils".
-* Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter et "Fermer" sont proposés."
+* Lorsque vous circulez dans la liste des items, si vous êtes sur un groupe, son nom devrait être suffixé par le terme (Groupe).
+* Si vous ouvrez un groupe, vous devriez atterrir dans la liste des clés que contient ce groupe.
+* Vous pourrez assigner un raccourci clavier pour ouvrir chacune des  boîtes de dialogue citées dans les chapitres précédents, dans le menu "Gestes de commandes" et plus précisément, dans la catégorie "Outils".
+* Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter un groupe"", ""Ajouter une clé"" et "Fermer" sont proposés."
 
-## Changements pour la version 1.0 ##
+## Changements pour la version 1.1. ##
+
+* Cette version ajoute la possibilité de créer et de gérer des groupes de sous-rubriques.
+* Dans la rubrique "Afficher mes contacts favoris", les informations du contact sont affichées dans une fenêtre de type texte, pour faciliter la copie.
+* Désormais, dans la rubrique "Mes contacts favoris", les valeurs entrées pour chaque contact sont multilignes.
+
+## Changements pour la version 1.0. ##
 
 * version initiale.
