@@ -1,5 +1,5 @@
 # My favorite topics #
-# Version 1.1-dev #
+# Version 1.1 #
 
 * Auteurs : Abderrahim, Abdel.
 * télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1/myFavoriteTopics-1.1.nvda-addon)
