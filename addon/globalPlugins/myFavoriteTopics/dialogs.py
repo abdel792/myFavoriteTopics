@@ -335,9 +335,9 @@ class MyTopicsDialog(wx.Dialog):
 		oldName = previousName.split(" (")[0]
 		fieldLabel = _("Rename the key") if not self.isGroup(item = oldName) else _("Rename the group")
 		# Translators: The label of a field to enter a new name for the key or group.
-		with wx.TextEntryDialog(parent = self, message = _("New name:"),
+		with wx.TextEntryDialog(self, _("New name:"),
 			# Translators: The title of the dialog to rename the key or group.
-			caption = fieldLabel, defaultValue = oldName) as d:
+			fieldLabel, oldName) as d:
 			if d.ShowModal() == wx.ID_CANCEL:
 				return
 		newName = d.Value
@@ -383,11 +383,11 @@ class MyTopicsDialog(wx.Dialog):
 		if self.section != "myContacts":
 			# It's not a contact, wee don't need a multiline value.
 			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(parent = self, message = _("New value:"), caption = _("Modify the value"), defaultValue = myConfig.getConfig()[self.section][theKey])
+			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][theKey])
 		else:
 			# It's a contact, wee need a multiline value.
 			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(parent = self, message = _("New value:"), caption = _("Modify the value"), defaultValue = myConfig.getConfig()[self.section][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
+			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
 		if d.ShowModal() == wx.ID_CANCEL:
 			return
 		newValue = d.Value
@@ -687,9 +687,9 @@ class MyGroupDialog(wx.Dialog):
 		index = self.keysList.Selection
 		oldName = self.keysList.GetString(index)
 		# Translators: The label of a field to enter a new name for the key.
-		with wx.TextEntryDialog(parent = self, message = _("New name:"),
+		with wx.TextEntryDialog(self, _("New name:"),
 				# Translators: The title of the dialog to rename the key.
-				caption = _("Rename the key"), defaultValue = oldName) as d:
+				_("Rename the key"), oldName) as d:
 			if d.ShowModal() == wx.ID_CANCEL:
 				return
 		newName = d.Value
@@ -735,11 +735,11 @@ class MyGroupDialog(wx.Dialog):
 		if self.section != "myContacts":
 			# It's not a contact, wee don't need a multiline value.
 			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(parent = self, message = _("New value:"), caption = _("Modify the value"), defaultValue = myConfig.getConfig()[self.section][self.subsection][theKey])
+			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][self.subsection][theKey])
 		else:
 			# It's a contact, wee need a multiline value.
 			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(parent = self, message = _("New value:"), caption = _("Modify the value"), defaultValue = myConfig.getConfig()[self.section][self.subsection][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
+			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][self.subsection][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
 		if d.ShowModal() == wx.ID_CANCEL:
 			return
 		newValue = d.Value

@@ -1,9 +1,8 @@
 # My favorite topics #
-# Version 1.1 #
+# Version 1.2 #
 
 * Authors: Abderrahim, Abdel.
-* download [stable version](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1/myFavoriteTopics-1.1.nvda-addon)
-* download [development version](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1-dev/myFavoriteTopics-1.1-dev.nvda-addon)
+* download [stable version](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.2/myFavoriteTopics-1.2.nvda-addon)
 
 This add-on allows you to display and consult your favorite topics.
 
@@ -43,6 +42,10 @@ When you press the button corresponding to a topic, this should open up a dialog
 
 * You can assign a keyboard shortcut to open each of the dialog boxes mentioned in previous chapters, in the menu "Input gestures" and, more specifically, in the category 'Tools'.
 * When no item is present in the list, only the "Add a new section", "Add a new key" and "Close" buttons are displayed.
+
+## Change for 1.2 ##
+
+* This version provides the compatibility of the add-on with WxPython version 4, especially for dialog boxes for modifying and renaming keys for each topic;
 
 ## Change for 1.1 ##
 

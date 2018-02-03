@@ -1,9 +1,8 @@
 # My favorite topics #
-# Version 1.1 #
+# Version 1.2 #
 
 * Auteurs : Abderrahim, Abdel.
-* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1/myFavoriteTopics-1.1.nvda-addon)
-* télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.1-dev/myFavoriteTopics-1.1-dev.nvda-addon)
+* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.2/myFavoriteTopics-1.2.nvda-addon)
 
 Cet addon devrait vous permettre d'afficher et de consulter vos rubriques favorites.
 
@@ -42,6 +41,10 @@ Lorsque vous presser sur l'un des boutons correspondant à une rubrique, vous de
 * Si vous ouvrez un groupe, vous devriez atterrir dans la liste des clés que contient ce groupe.
 * Vous pourrez assigner un raccourci clavier pour ouvrir chacune des  boîtes de dialogue citées dans les chapitres précédents, dans le menu "Gestes de commandes" et plus précisément, dans la catégorie "Outils".
 * Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter un groupe"", ""Ajouter une clé"" et "Fermer" sont proposés."
+
+## Changements pour la version 1.2. ##
+
+* Cette version apporte la compatibilité de l'extension avec wxPython version 4, notamment pour les boîtes de dialogue de modification et renommage des clés pour chaque rubrique;
 
 ## Changements pour la version 1.1. ##
 
