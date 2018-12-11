@@ -1,8 +1,9 @@
 # My favorite topics #
-# Version 1.2 #
+# Version 2.0-dev #
 
-* Authors: Abderrahim, Abdel.
-* download [stable version](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.2/myFavoriteTopics-1.2.nvda-addon)
+* Authors: Abderrahim, Abdellah, Abdelkrim.
+* download [stable version](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0/myFavoriteTopics-2.0.nvda-addon)
+* download [development version](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0-dev/myFavoriteTopics-2.0-dev.nvda-addon)
 
 This add-on allows you to display and consult your favorite topics.
 
@@ -42,6 +43,10 @@ When you press the button corresponding to a topic, this should open up a dialog
 
 * You can assign a keyboard shortcut to open each of the dialog boxes mentioned in previous chapters, in the menu "Input gestures" and, more specifically, in the category 'Tools'.
 * When no item is present in the list, only the "Add a new section", "Add a new key" and "Close" buttons are displayed.
+
+## Changes for 2.0 ##
+
+* Fixed a bug that occurred after closing the Favorite Topics dialog box and preventing it from reopening without relaunching NVDA.
 
 ## Change for 1.2 ##
 

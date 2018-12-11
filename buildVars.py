@@ -19,9 +19,9 @@ addon_info = {
 	# Translators: Long description to be shown for this add-on on add-on information from add-ons manager
 	"addon_description" : _("""Allows you to display and consult a list of websites, contacts, journals or applications that you can modify to your liking."""),
 	# version
-	"addon_version" : "1.2",
+	"addon_version" : "2.0-dev",
 	# Author(s)
-	"addon_author" : "Abderrahim <abdemoum65@gmail.com>, Abdel <abdelkrim.bensaid@gmail.com>",
+	"addon_author" : "Abderrahim <abdemoum65@gmail.com>, Abdellah ZINEDDINE <abdellahzineddin@gmail.com>, Abdel <abdelkrim.bensaid@gmail.com>",
 	# URL for the add-on documentation support
 	"addon_url" : "",
 	# Documentation file name

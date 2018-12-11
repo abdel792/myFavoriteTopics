@@ -1,8 +1,9 @@
-# My favorite topics #
-# Version 1.2 #
+# Mes rubriques favorites #
+# Version 2.0-dev #
 
-* Auteurs : Abderrahim, Abdel.
-* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v1.2/myFavoriteTopics-1.2.nvda-addon)
+*	 Auteurs : Abderrahim, Abdellah, Abdelkrim.
+*	 télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0/myFavoriteTopics-2.0.nvda-addon)
+*	 télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0-dev/myFavoriteTopics-2.0-dev.nvda-addon)
 
 Cet addon devrait vous permettre d'afficher et de consulter vos rubriques favorites.
 
@@ -41,6 +42,10 @@ Lorsque vous presser sur l'un des boutons correspondant à une rubrique, vous de
 * Si vous ouvrez un groupe, vous devriez atterrir dans la liste des clés que contient ce groupe.
 * Vous pourrez assigner un raccourci clavier pour ouvrir chacune des  boîtes de dialogue citées dans les chapitres précédents, dans le menu "Gestes de commandes" et plus précisément, dans la catégorie "Outils".
 * Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter un groupe"", ""Ajouter une clé"" et "Fermer" sont proposés."
+
+## Changements pour la version 2.0 ##
+
+*	 Correction d'un bug qui survenait après la fermeture de la boîte de dialogue des rubriques favorites et qui empêchait sa réouverture sans relancer NVDA.
 
 ## Changements pour la version 1.2. ##
 

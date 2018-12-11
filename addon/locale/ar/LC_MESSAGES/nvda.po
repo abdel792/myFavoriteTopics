@@ -1,0 +1,356 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: myFavoriteTopics 2.0-dev\n"
+"POT-Creation-Date: 2017-11-23 01:44+0000\n"
+"PO-Revision-Date: 2020-12-24 14:43+0100\n"
+"Last-Translator: \n"
+"Language-Team: NVDA add-ons Arabic translation team\n"
+"Language: ar\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 2.2.4\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n > 1);\n"
+"X-Poedit-SourceCharset: UTF-8\n"
+"X-Poedit-SearchPath-0: .\n"
+
+#: globalPlugins/myFavoriteTopics/__init__.py:25
+msgid "&My favorite topics..."
+msgstr "أ&قسام المفضلة..."
+
+#: globalPlugins/myFavoriteTopics/__init__.py:68
+msgid "Allows you to display the dialog box to select uour favorite topics."
+msgstr "يمَكنك من عرض مربع حوار يتيح لك اختيار الأقسام المفضلة لديك."
+
+#: globalPlugins/myFavoriteTopics/__init__.py:69
+msgid "Allows you to display a dialog box to select your favorite websites"
+msgstr "يمَكنك من عرض مربع حوار لاختيار المواقع المفضلة لديك."
+
+#: globalPlugins/myFavoriteTopics/__init__.py:70
+msgid ""
+"Allows you to display a dialog box to select your favorite applications or "
+"directories"
+msgstr "يمَكنك من عرض مربع حوار لاختيار البرامج أو المجلدات المفضلة لديك."
+
+#: globalPlugins/myFavoriteTopics/__init__.py:71
+msgid "Allows you to display a dialog box to select your favorite contacts"
+msgstr "يمَكنك من عرض مربع حوار لاختيار الاتصالات المفضلة لديك."
+
+#: globalPlugins/myFavoriteTopics/__init__.py:72
+msgid ""
+"Allows you to display a dialog box to select your favorite journal websites"
+msgstr "يمَكنك من عرض مربع حوار لاختيار الجرائد المفضلة لديك."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:31
+msgid "My favorite topics"
+msgstr "أقسام المفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:36
+msgid "Display my favorite &websites"
+msgstr "عرض ال&مواقع المفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:41
+msgid "Display my favorite &applications"
+msgstr "عرض ال&برامج المفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:46
+msgid "Display my favorite &contacts"
+msgstr "عرض الا&تصالات المفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:51
+msgid "Display my favorite &journal websites"
+msgstr "عرض ال&جرائد المفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:57
+#: globalPlugins/myFavoriteTopics/dialogs.py:175
+#: globalPlugins/myFavoriteTopics/dialogs.py:863
+msgid "&Close"
+msgstr "إ&غلاق"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:110
+msgid "favorite websites"
+msgstr "مواقع مُفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:110
+msgid "Websites"
+msgstr "مواقع"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:112
+msgid "favorite applications or directories"
+msgstr "برامجُ أو مُجلدات مُفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:112
+msgid "Applications or directories"
+msgstr "برامجُ أو مُجلدات"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:114
+msgid "favorite contacts"
+msgstr "اتصالات مُفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:114
+msgid "Contacts"
+msgstr "اتصالات"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:116
+msgid "favorite journal websites"
+msgstr "جرائدُ مُفضلة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:116
+msgid "journal websites"
+msgstr "جرائد"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:119
+#, python-brace-format
+msgid "My {theTopics}"
+msgstr "{theTopics}"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:138
+#: globalPlugins/myFavoriteTopics/dialogs.py:565
+msgid "&Open"
+msgstr "&فتح"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:144
+msgid "A&dd a new group"
+msgstr "إضافة م&جموعة جديدة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:149
+#: globalPlugins/myFavoriteTopics/dialogs.py:571
+msgid "&Add a new key"
+msgstr "إضافة مف&تاح جديد"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:154
+#: globalPlugins/myFavoriteTopics/dialogs.py:225
+#: globalPlugins/myFavoriteTopics/dialogs.py:576
+msgid "&Rename the key"
+msgstr "إ&عادة تسمية مفتاح"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:159
+#: globalPlugins/myFavoriteTopics/dialogs.py:581
+msgid "&Modify value"
+msgstr "تعديل ال&محتوى"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:164
+#: globalPlugins/myFavoriteTopics/dialogs.py:586
+msgid "Mo&ve to group"
+msgstr "ن&قل إلى مجموعة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:169
+#: globalPlugins/myFavoriteTopics/dialogs.py:591
+msgid "&Delete"
+msgstr "&حَذف"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:193
+msgid "(Group)"
+msgstr "(مجموعة)"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:213
+msgid "&Rename the group"
+msgstr "إعادة ت&سمية المجموعة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:248
+#: globalPlugins/myFavoriteTopics/dialogs.py:813
+#, python-brace-format
+msgid "Choose the group in {theTopic} topic, where you want to move {element}"
+msgstr "اختر مجموعة ضمن قسم {theTopic}, حيث سيُنْقَلُ {element}"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:248
+#: globalPlugins/myFavoriteTopics/dialogs.py:813
+msgid "Move the element"
+msgstr "نقل العنصر"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:252
+#: globalPlugins/myFavoriteTopics/dialogs.py:347
+#: globalPlugins/myFavoriteTopics/dialogs.py:512
+#: globalPlugins/myFavoriteTopics/dialogs.py:699
+#: globalPlugins/myFavoriteTopics/dialogs.py:817
+msgid "This name already exists. Please choose a different name"
+msgstr "هذا الإسم موجودٌ سلفا. اختر اسمًا آخَر"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:252
+#: globalPlugins/myFavoriteTopics/dialogs.py:260
+#: globalPlugins/myFavoriteTopics/dialogs.py:266
+#: globalPlugins/myFavoriteTopics/dialogs.py:309
+#: globalPlugins/myFavoriteTopics/dialogs.py:342
+#: globalPlugins/myFavoriteTopics/dialogs.py:347
+#: globalPlugins/myFavoriteTopics/dialogs.py:354
+#: globalPlugins/myFavoriteTopics/dialogs.py:360
+#: globalPlugins/myFavoriteTopics/dialogs.py:393
+#: globalPlugins/myFavoriteTopics/dialogs.py:399
+#: globalPlugins/myFavoriteTopics/dialogs.py:432
+#: globalPlugins/myFavoriteTopics/dialogs.py:445
+#: globalPlugins/myFavoriteTopics/dialogs.py:455
+#: globalPlugins/myFavoriteTopics/dialogs.py:503
+#: globalPlugins/myFavoriteTopics/dialogs.py:512
+#: globalPlugins/myFavoriteTopics/dialogs.py:665
+#: globalPlugins/myFavoriteTopics/dialogs.py:694
+#: globalPlugins/myFavoriteTopics/dialogs.py:699
+#: globalPlugins/myFavoriteTopics/dialogs.py:706
+#: globalPlugins/myFavoriteTopics/dialogs.py:712
+#: globalPlugins/myFavoriteTopics/dialogs.py:745
+#: globalPlugins/myFavoriteTopics/dialogs.py:751
+#: globalPlugins/myFavoriteTopics/dialogs.py:780
+#: globalPlugins/myFavoriteTopics/dialogs.py:793
+#: globalPlugins/myFavoriteTopics/dialogs.py:803
+#: globalPlugins/myFavoriteTopics/dialogs.py:817
+#: globalPlugins/myFavoriteTopics/dialogs.py:825
+#: globalPlugins/myFavoriteTopics/dialogs.py:831
+msgid "Error"
+msgstr "خطأ"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:259
+#: globalPlugins/myFavoriteTopics/dialogs.py:265
+#: globalPlugins/myFavoriteTopics/dialogs.py:824
+#: globalPlugins/myFavoriteTopics/dialogs.py:830
+#, python-brace-format
+msgid "Can not move {theItem}."
+msgstr "لا يمكن نقل {theItem}."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:288
+#: globalPlugins/myFavoriteTopics/dialogs.py:323
+#: globalPlugins/myFavoriteTopics/dialogs.py:371
+#: globalPlugins/myFavoriteTopics/dialogs.py:408
+#: globalPlugins/myFavoriteTopics/dialogs.py:645
+#: globalPlugins/myFavoriteTopics/dialogs.py:677
+#: globalPlugins/myFavoriteTopics/dialogs.py:723
+#: globalPlugins/myFavoriteTopics/dialogs.py:760
+msgid "No selection found ! Please select an item in the list"
+msgstr "لا شيءَ محدد ! يرجى تحديد عنصر ضمن القائمة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:289
+#: globalPlugins/myFavoriteTopics/dialogs.py:324
+#: globalPlugins/myFavoriteTopics/dialogs.py:372
+#: globalPlugins/myFavoriteTopics/dialogs.py:409
+#: globalPlugins/myFavoriteTopics/dialogs.py:646
+#: globalPlugins/myFavoriteTopics/dialogs.py:678
+#: globalPlugins/myFavoriteTopics/dialogs.py:724
+#: globalPlugins/myFavoriteTopics/dialogs.py:761
+msgid "No selection"
+msgstr "لا شيءَ محدد"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:295
+#: globalPlugins/myFavoriteTopics/dialogs.py:652
+#, python-brace-format
+msgid "Are you sure you want to delete {theKey}?"
+msgstr "هل أنت راغبٌ فعلًا في حَذف {theKey}?"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:297
+#: globalPlugins/myFavoriteTopics/dialogs.py:654
+msgid "Confirm Deletion"
+msgstr "تأكيد الحذف"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:308
+#: globalPlugins/myFavoriteTopics/dialogs.py:664
+msgid "Error deleting element."
+msgstr "خطأ في الحذف."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:330
+#: globalPlugins/myFavoriteTopics/dialogs.py:686
+msgid "Rename the key"
+msgstr "إعادة تسمية المفتاح"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:330
+msgid "Rename the group"
+msgstr "إعادة تسمية المجموعة"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:332
+#: globalPlugins/myFavoriteTopics/dialogs.py:684
+msgid "New name:"
+msgstr "اسم جديد:"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:341
+msgid "You have not specified a new name for this item !"
+msgstr "لم تُعيِّن اسمًا جديدا لهذا العنصر !"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:353
+msgid "Can not rename this key or group."
+msgstr "لا يمكن أعادة تسمية هذا المفتاح أو المجموعة."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:359
+msgid "Error renaming key or group."
+msgstr "خطأ في إعادة تسمية المفتاح أو المجموعة."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:380
+#: globalPlugins/myFavoriteTopics/dialogs.py:384
+#: globalPlugins/myFavoriteTopics/dialogs.py:732
+#: globalPlugins/myFavoriteTopics/dialogs.py:736
+msgid "New value:"
+msgstr "محتوى جديد:"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:380
+#: globalPlugins/myFavoriteTopics/dialogs.py:384
+#: globalPlugins/myFavoriteTopics/dialogs.py:732
+#: globalPlugins/myFavoriteTopics/dialogs.py:736
+msgid "Modify the value"
+msgstr "تعديل المحتوى"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:392
+#: globalPlugins/myFavoriteTopics/dialogs.py:398
+#: globalPlugins/myFavoriteTopics/dialogs.py:744
+#: globalPlugins/myFavoriteTopics/dialogs.py:750
+msgid "Can not modify the value."
+msgstr "لا يمكن تعديل المحتوى."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:431
+#: globalPlugins/myFavoriteTopics/dialogs.py:779
+#, python-brace-format
+msgid "Can not open {theItem}, this file or directory does not exist."
+msgstr "لا يمكن فتح {theItem}, هذا الملف أو المجلد غير موجود."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:444
+#: globalPlugins/myFavoriteTopics/dialogs.py:792
+#, python-brace-format
+msgid "Can not display {theItem}'s informations."
+msgstr "لا يمكن عرض معلومات {theItem}."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:454
+#: globalPlugins/myFavoriteTopics/dialogs.py:802
+#, python-brace-format
+msgid "Can not open the url {theURL}."
+msgstr "لا يمكن فتح الرابط {theURL}."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:468
+msgid "The group name:"
+msgstr "اسم المجموعة:"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:468
+msgid "The key name:"
+msgstr "اسم المفتاح:"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:474
+msgid "Enter the name:"
+msgstr "أَدخِلِ الاسمْ:"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:481
+msgid "Key value:"
+msgstr "محتوى المفتاح:"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:502
+msgid "You have not specified a name for this item !"
+msgstr "لم تُعيِّن اسمًا لهذا العنصر !"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:546
+#, python-brace-format
+msgid "The group {theSubsection} of the {theSection} topic"
+msgstr "المجموعة {theSubsection} لقسم {theSection}"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:597
+msgid "Re&turn to main list"
+msgstr "ال&رجوع إلى القائمة الرئيسية"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:693
+msgid "You have not specified a new name for this key !"
+msgstr "لم تُعيِّن اسمًا جديدا لهذا المفتاح !"
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:705
+msgid "Can not rename this key."
+msgstr "لا يمكن أعادة تسمية هذا المفتاح."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:711
+msgid "Error renaming key."
+msgstr "خطأ في إعادة تسمية المفتاح."
+
+#: globalPlugins/myFavoriteTopics/dialogs.py:852
+#: globalPlugins/myFavoriteTopics/dialogs.py:856
+msgid "Contact's informations"
+msgstr "معلومات الاتصال"

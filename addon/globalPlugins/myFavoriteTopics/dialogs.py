@@ -98,6 +98,7 @@ class MyFavoriteTopicsDialog(wx.Dialog):
 
 	def onClose(self, evt):
 		self.Destroy()
+		MyFavoriteTopicsDialog._instance = None
 
 class MyTopicsDialog(wx.Dialog):
 
@@ -465,6 +466,7 @@ class MyTopicsDialog(wx.Dialog):
 
 	def onClose(self, evt):
 		self.Destroy()
+		MyTopicsDialog._instance = None
 
 class NewItemDialog(wx.Dialog):
 
