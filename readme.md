@@ -1,5 +1,5 @@
 # My favorite topics #
-# Version 2.0-dev #
+# Version 2.0 #
 
 * Authors: Abderrahim, Abdellah, Abdelkrim.
 * download [stable version](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0/myFavoriteTopics-2.0.nvda-addon)

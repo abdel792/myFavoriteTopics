@@ -1,13 +1,13 @@
 # Mes rubriques favorites #
-# Version 2.0-dev #
+# Version 2.0 #
 
 *	 Auteurs : Abderrahim, Abdellah, Abdelkrim.
 *	 télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0/myFavoriteTopics-2.0.nvda-addon)
 *	 télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0-dev/myFavoriteTopics-2.0-dev.nvda-addon)
 
-Cet addon devrait vous permettre d'afficher et de consulter vos rubriques favorites.
+Cette extension devrait vous permettre d'afficher et de consulter vos rubriques favorites.
 
-Il devrait ajouter un item dans le menu "Outils" de NVDA intitulé "Mes rubriques favorites", qui devrait vous ouvrir une boîte de dialogue composée de 5 boutons :
+Elle devrait ajouter un item dans le menu "Outils" de NVDA intitulé "Mes rubriques favorites", qui devrait vous ouvrir une boîte de dialogue composée de 5 boutons :
 
 * Un bouton "Afficher mes sites web favoris", pour afficher la liste de vos sites web favoris.
 * Un bouton "Afficher mes applications favorites", pour afficher la liste de vos applications et répertoires favoris présents sur votre PC.
