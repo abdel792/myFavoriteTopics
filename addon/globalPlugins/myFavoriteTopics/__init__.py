@@ -7,10 +7,10 @@
 #See the file COPYING for more details.
 
 import globalPluginHandler
-import myConfig
+from . import myConfig
 import wx
 import gui
-import dialogs
+from . import dialogs
 
 # Importing the SCRCAT_TOOLS category from the globalCommands module.
 from globalCommands import SCRCAT_TOOLS

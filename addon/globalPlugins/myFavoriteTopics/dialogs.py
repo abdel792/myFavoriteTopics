@@ -8,7 +8,8 @@
 
 import wx
 import configobj
-import myConfig
+import sys
+from . import myConfig
 import globalVars
 import gui
 import os
@@ -201,7 +202,7 @@ class MyTopicsDialog(wx.Dialog):
 		if not item:
 			return
 		if self.isGroup(item = item):
-			item = unicode("{theItem} {section}", "utf-8").format(theItem = item, section = Group)
+			item = unicode("{theItem} {section}", "utf-8").format(theItem = item, section = Group) if sys.version_info.major == 2 else "{theItem} {section}".format(theItem = item, section = Group)
 		return item
 
 	def selectFirstItem(self):
@@ -441,7 +442,7 @@ class MyTopicsDialog(wx.Dialog):
 		elif self.section == "myContacts":
 			# We are looking for a contact.
 			theValue = myConfig.getConfig()[self.section][item]
-			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue)
+			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue) if sys.version_info.major == 2 else "{theName} {theInfos}".format(theName=item, theInfos=theValue)
 			try:
 				# We display the information of the selected contact in a wx.TextCtrl.
 				d = DisplayContactInformationDialog(parent = self, text = information)
@@ -790,7 +791,7 @@ class MyGroupDialog(wx.Dialog):
 		elif self.section == "myContacts":
 			theValue = myConfig.getConfig()[self.section][self.subsection][item]
 			# We are looking for a contact.
-			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue)
+			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue) if sys.version_info.major == 2 else "{theName} {theInfos}".format(theName=item, theInfos=theValue)
 			try:
 				# We display the information of the selected contact in a wx.TextCtrl.
 				d = DisplayContactInformationDialog(parent = self, text = information)

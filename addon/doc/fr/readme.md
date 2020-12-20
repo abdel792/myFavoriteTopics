@@ -1,9 +1,9 @@
 # Mes rubriques favorites #
-# Version 2.0 #
+# Version 3.0-dev #
 
-*	 Auteurs : Abderrahim, Abdellah, Abdelkrim.
-*	 télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0/myFavoriteTopics-2.0.nvda-addon)
-*	 télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0-dev/myFavoriteTopics-2.0-dev.nvda-addon)
+* Auteurs : Abderrahim, Abdellah, Abdelkrim.
+* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0/myFavoriteTopics-3.0.nvda-addon)
+* télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0-dev/myFavoriteTopics-3.0-dev.nvda-addon)
 
 Cette extension devrait vous permettre d'afficher et de consulter vos rubriques favorites.
 
@@ -43,9 +43,13 @@ Lorsque vous presser sur l'un des boutons correspondant à une rubrique, vous de
 * Vous pourrez assigner un raccourci clavier pour ouvrir chacune des  boîtes de dialogue citées dans les chapitres précédents, dans le menu "Gestes de commandes" et plus précisément, dans la catégorie "Outils".
 * Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter un groupe"", ""Ajouter une clé"" et "Fermer" sont proposés."
 
+## Changement pour la version 3.0 ##
+
+* Ajout de la compatibilité de l'extension avec les versions de NVDA utilisant Python 3.
+
 ## Changements pour la version 2.0 ##
 
-*	 Correction d'un bug qui survenait après la fermeture de la boîte de dialogue des rubriques favorites et qui empêchait sa réouverture sans relancer NVDA.
+* Correction d'un bug qui survenait après la fermeture de la boîte de dialogue des rubriques favorites et qui empêchait sa réouverture sans relancer NVDA.
 
 ## Changements pour la version 1.2. ##
 

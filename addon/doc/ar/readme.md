@@ -1,9 +1,9 @@
 # أقسام المفضلة #
-# الإصدار 2.0 #
+# الإصدار 3.0-dev #
 
 * المطورون : عبد الرحيم, وعبد الله زين الدين, وعبد الكريم.
-* تحميل [الإصدار الجاهز](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0/myFavoriteTopics-2.0.nvda-addon)
-* تحميل [الإصدار التجريبي](https://github.com/abdel792/myFavoriteTopics/releases/download/v2.0-dev/myFavoriteTopics-2.0-dev.nvda-addon)
+* تحميل [الإصدار الجاهز](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0/myFavoriteTopics-3.0.nvda-addon)
+* تحميل [الإصدار التجريبي](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0-dev/myFavoriteTopics-3.0-dev.nvda-addon)
 
 تتيح لك هذه الإضافة عرض وتصَفُح الأقسام المفضلة لديك.
 
@@ -42,6 +42,10 @@
 * حين تفْتحُ مجموعة, ستكون بإزائ قائمة المفاتيح التي تحتويها هذه المجموعة;
 * بإمكانك تعيين اختصار خاص لفتح كل مربع حوار على حِدَة من مربعات الحوار المذكورة في الأقسام السابقة, انطلاقا من قائمة "تخصيص الاختصارات" وتحديدا, في صِنْف "أدوات";
 * عند عدم وجود أي عنصر بالقائمة, سيتم الاقتصار على عرض الأزرار "إضافة مجموعة جديدة", و"إضافة مفتاح جديد", و"إغلاق".
+
+## مستجدات الإصدار 3.0 ##
+
+* إضافة التوافق مع إصدارات NVDA التي تستعمل Python 3.
 
 ## مستجدات الإصدار 2.0 ##
 
