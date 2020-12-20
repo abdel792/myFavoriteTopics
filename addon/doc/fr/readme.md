@@ -1,5 +1,5 @@
 # Mes rubriques favorites #
-# Version 3.0-dev #
+# Version 3.0 #
 
 * Auteurs : Abderrahim, Abdellah, Abdelkrim.
 * télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0/myFavoriteTopics-3.0.nvda-addon)
