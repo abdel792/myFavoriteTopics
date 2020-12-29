@@ -2,25 +2,54 @@
 
 # globalPlugins/myFavoriteTopics/dialogs.py.
 
-# Copyright 2017-2019 Abdelkrim Bensaïd and other contributors, released under gPL.
+# Copyright 2017-2019 Abdelkrim BensaÃ¯d and other contributors, released under gPL.
 #This file is covered by the GNU General Public License.
 #See the file COPYING for more details.
 
 import wx
+import re
 import configobj
+from collections import OrderedDict
 import sys
+import os
+from logHandler import log
+if sys.version_info.major == 2:
+	sys.path.append(os.path.join (os.path.abspath(os.path.dirname(__file__)), "libPy2"))
+	try:
+		from bs4 import BeautifulSoup
+		from googlesearch import search
+	except Exception as e:
+		log.debugWarning(e, exc_info = True)
+else:
+	sys.path.insert(0, os.path.join (os.path.abspath(os.path.dirname(__file__)), "libPy3"))
+	try:
+		from bs4 import BeautifulSoup
+		from googlesearch import search
+	except Exception as e:
+		log.debugWarning(e, exc_info = True)
+sys.path.remove(sys.path[-1] if sys.version_info.major == 2 else sys.path[0])
 from . import myConfig
 import globalVars
 import gui
-import os
 import webbrowser
 import subprocess
 import ui
-from logHandler import log
+import queueHandler
+if sys.version_info.major == 2:
+	import urllib
+	from . import urllib2
+else:
+	import urllib
+import random
 
 # For translation.
 import addonHandler
 addonHandler.initTranslation()
+
+def google_scrape(url):
+	page = urllib.urlopen(url) if sys.version_info.major == 2 else urllib.request.urlopen(url)
+	soup = BeautifulSoup(page, "html.parser")
+	return soup.title.text
 
 class MyFavoriteTopicsDialog(wx.Dialog):
 	_instance = None
@@ -34,41 +63,59 @@ class MyFavoriteTopicsDialog(wx.Dialog):
 		if MyFavoriteTopicsDialog._instance is not None:
 			return
 		MyFavoriteTopicsDialog._instance = self
+		super(MyFavoriteTopicsDialog, self).__init__(parent = parent,
 		# Translators: The title of the favorite topics dialog.
-		super(MyFavoriteTopicsDialog, self).__init__(parent = parent, title = _("My favorite topics"))
+		title = _("My favorite topics"))
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
 
+		item = self.googleSearchButton = wx.Button(self,
+		# Translators: The label of a button to do a search on Google or Youtube.
+		label = _("Sea&rch on Google or Youtube"))
+		item.Bind(wx.EVT_BUTTON, self.onGoogleSearch)
+		sizer.Add(item)
+
+		item = self.websitesListButton = wx.Button(self,
 		# Translators: The label of a button to display the list of the favorite websites.
-		item = self.websitesListButton = wx.Button(self, label = _("Display my favorite &websites"))
+		label = _("Display my favorite &websites"))
 		item.Bind(wx.EVT_BUTTON, self.onDisplayWebsites)
 		sizer.Add(item)
 
+		item = self.appsListButton = wx.Button(self,
 		# Translators: The label of a button to display the list of the favorite applications or directories.
-		item = self.appsListButton = wx.Button(self, label = _("Display my favorite &applications"))
+		label = _("Display my favorite &applications"))
 		item.Bind(wx.EVT_BUTTON, self.onDisplayApps)
 		sizer.Add(item)
 
+		item = self.contactsListButton = wx.Button(self,
 		# Translators: The label of a button to display the list of the favorite contacts.
-		item = self.contactsListButton = wx.Button(self, label = _("Display my favorite &contacts"))
+		label = _("Display my favorite &contacts"))
 		item.Bind(wx.EVT_BUTTON, self.onDisplayContacts)
 		sizer.Add(item)
 
+		item = self.newsListButton = wx.Button(self,
 		# Translators: The label of a button to display the list of the favorite journal websites.
-		item = self.newsListButton = wx.Button(self, label = _("Display my favorite &journal websites"))
+		label = _("Display my favorite &journal websites"))
 		item.Bind(wx.EVT_BUTTON, self.onDisplayNews)
 		sizer.Add(item)
 
+		item = self.notesListButton = wx.Button(self,
+		# Translators: The label of a button to display the list of the saved notes.
+		label = _("Display my &notes"))
+		item.Bind(wx.EVT_BUTTON, self.onDisplayNotes)
+		sizer.Add(item)
+
 		mainSizer.Add(sizer)
+		item = wx.Button(parent = self, id = wx.ID_CLOSE,
 		# Translators: The label of a button to close the dialog.
-		item = wx.Button(parent = self, id = wx.ID_CLOSE, label = _("&Close"))
+		label = _("&Close"))
 		item.Bind(wx.EVT_BUTTON, lambda evt: self.Close())
 		mainSizer.Add(item)
 		self.Bind(wx.EVT_CLOSE, self.onClose)
 		self.EscapeId = wx.ID_CLOSE
 
 		if globalVars.appArgs.secure:
-			for item in self.websitesListButton, self.appsListButton, self.contactsListButton, self.newsListButton:
+			for item in self.googleSearchButton, self.websitesListButton, self.appsListButton, self.contactsListButton, self.newsListButton, self.notesListButton:
 				item.Disable()
 		mainSizer.Fit(self)
 		self.Sizer = mainSizer
@@ -76,6 +123,15 @@ class MyFavoriteTopicsDialog(wx.Dialog):
 
 	def __del__(self):
 		MyFavoriteTopicsDialog._instance = None
+
+	def onGoogleSearch (self, evt):
+		TextEntryDialog (parent = self,
+		# Translators: The title of the edit field.
+		title = _("Enter your search"),
+		# Translators: The label of the edit field.
+		fieldLabel = _("Search:"),
+		item = 4).Show()
+		evt.Skip()
 
 	def onDisplayWebsites(self, evt):
 		d = MyTopicsDialog(parent = self, section = "mySites")
@@ -97,6 +153,11 @@ class MyFavoriteTopicsDialog(wx.Dialog):
 		d.Show()
 		evt.Skip()
 
+	def onDisplayNotes(self, evt):
+		d = MyTopicsDialog(parent = self, section = "myNotes")
+		d.Show()
+		evt.Skip()
+
 	def onClose(self, evt):
 		self.Destroy()
 		MyFavoriteTopicsDialog._instance = None
@@ -113,25 +174,53 @@ class MyTopicsDialog(wx.Dialog):
 		if MyTopicsDialog._instance is not None:
 			return
 		MyTopicsDialog._instance = self
+		self.contact = False
+		self.notes = False
 		self.section = section
 		if section == "mySites":
-			topics = [_("favorite websites"), _("Websites")]
+			topics = [
+			# Translators: The title of the topics dialog.
+			_("favorite websites"),
+			# Translators: The label of the topics list.
+			_("Websites")
+			]
 		elif section == "myApps":
-			topics = [_("favorite applications or directories"), _("Applications or directories")]
+			topics = [
+			# Translators: The title of the topics dialog.
+			_("favorite applications or directories"),
+			# Translators: The label of the topics list.
+			_("Applications or directories")
+			]
 		elif section == "myContacts":
-			topics = [_("favorite contacts"), _("Contacts")]
+			self.contact = True
+			topics = [
+			# Translators: The title of the topics dialog.
+			_("favorite contacts"),
+			# Translators: The label of the topics list.
+			_("Contacts")
+			]
 		elif section == "myNews":
-			topics = [_("favorite journal websites"), _("journal websites")]
+			topics = [
+			# Translators: The title of the topics dialog.
+			_("favorite journal websites"),
+			# Translators: The label of the topics list.
+			_("journal websites")
+			]
+		elif section == "myNotes":
+			self.notes = True
+			topics = [
+			# Translators: The title of the topics dialog.
+			_("Saved notes"),
+			# Translators: The label of the topics list.
+			_("Notes")
+			]
 		self.topics = topics
-		# Translators: The title of the topics dialog.
 		super(MyTopicsDialog, self).__init__(parent = parent, title = _("My {theTopics}").format(theTopics = topics[0]))
 		self.itemsList = [self.onAddItemInformation(key) for key in myConfig.getConfig()[section].keys()]
-		self.key = 1
-		self.subsection = 2
+		self.element = 1
+		self.group = 2
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
-
-		# Translators: The label of the items list.
 		sizer.Add(wx.StaticText(self, label = topics[1]))
 		item = self.topicsList = wx.ListBox(self,
 		choices = self.itemsList,
@@ -142,45 +231,60 @@ class MyTopicsDialog(wx.Dialog):
 		mainSizer.Add(sizer)
 
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
+		item = self.openButton = wx.Button(self,
 		# Translators: The label of a button to open an element in the topics list.
-		item = self.openButton = wx.Button(self, label = _("&Open"))
+		label = _("&Open"))
 		item.Bind(wx.EVT_BUTTON, self.onOpen)
 		item.SetDefault()
 		sizer.Add(item)
 
-		# Translators: The label of a button to create a new subsection in the topics list.
-		item = self.addSubsectionButton = wx.Button(self, label = _("A&dd a new group"))
-		item.Bind(wx.EVT_BUTTON, self.onNewSubsection)
+		item = self.addGroupButton = wx.Button(self,
+		# Translators: The label of a button to create a new group in the topics list.
+		label = _("A&dd a new group"))
+		item.Bind(wx.EVT_BUTTON, self.onNewGroup)
 		sizer.Add(item)
 
-		# Translators: The label of a button to create a new key in the topics list, for the current section.
-		item = self.addKeyButton = wx.Button(self, label = _("&Add a new key"))
-		item.Bind(wx.EVT_BUTTON, self.onNewKey)
+		item = self.addElementButton = wx.Button(self,
+		# Translators: The label of a button to create a new element in the topics list, for the current section.
+		label = _("&Add a new element"))
+		item.Bind(wx.EVT_BUTTON, self.onNewElement)
 		sizer.Add(item)
 
+		item = self.renameElementButton = wx.Button(self,
 		# Translators: The label of a button to rename an element in the topics list.
-		item = self.renameElementButton = wx.Button(self, label = _("&Rename the key"))
+		label = _("&Rename the element"))
 		item.Bind(wx.EVT_BUTTON, self.onRenameElement)
 		sizer.Add(item)
 
-		# Translators: The label of a button to modify the value of a key in the topics list.
-		item = self.modifyValueButton = wx.Button(self, label = _("&Modify value"))
+		item = self.modifyValueButton = wx.Button(self,
+		# Translators: The label of a button to modify the value of an element in the topics list.
+		label = _("&Modify value"))
 		item.Bind(wx.EVT_BUTTON, self.onModifyValue)
 		sizer.Add(item)
 
-		# Translators: The label of a button to move the selected key to a group.
-		item = self.moveButton = wx.Button(self, label = _("Mo&ve to group"))
+		item = self.moveButton = wx.Button(self,
+		# Translators: The label of a button to move the selected element to a group.
+		label = _("Mo&ve to group"))
 		item.Bind(wx.EVT_BUTTON, self.onMoveToGroup)
 		sizer.Add(item)
 
+		if self.contact or self.notes:
+			item = self.findButton = wx.Button(self,
+			# Translators: The label of a button to find a contact or note.
+			label = _("&Find"))
+			item.Bind(wx.EVT_BUTTON, self.onFindButton)
+			sizer.Add(item)			
+
+		item = self.deleteButton = wx.Button(self,
 		# Translators: The label of a button to remove an item in the topics list.
-		item = self.deleteButton = wx.Button(self, label = _("&Delete"))
+		label = _("&Delete"))
 		item.Bind(wx.EVT_BUTTON, self.onDelete)
 		sizer.Add(item)
 		mainSizer.Add(sizer)
 
+		item = wx.Button(parent = self, id = wx.ID_CLOSE,
 		# Translators: The label of a button to close the dialog.
-		item = wx.Button(parent = self, id = wx.ID_CLOSE, label = _("&Close"))
+		label = _("&Close"))
 		item.Bind(wx.EVT_BUTTON, lambda evt: self.Close())
 		mainSizer.Add(item)
 
@@ -218,6 +322,7 @@ class MyTopicsDialog(wx.Dialog):
 		return False
 
 	def adaptButtonsForGroup(self):
+		# Translators: The label of the button for renaming the group.
 		self.renameElementButton.Label = _("&Rename the group")
 		self.modifyValueButton.Disable()
 		self.moveButton.Disable()
@@ -230,7 +335,8 @@ class MyTopicsDialog(wx.Dialog):
 		if self.isGroup(index = index):
 			self.adaptButtonsForGroup()
 		else:
-			self.renameElementButton.Label = _("&Rename the key")
+			# Translators: The label of the button for renaming the element.
+			self.renameElementButton.Label = _("&Rename the element")
 			self.modifyValueButton.Enabled = True
 			if len(myConfig.getSubsectionsFromSection(section = self.section)) > 0:
 				self.moveButton.Enabled = True
@@ -239,10 +345,10 @@ class MyTopicsDialog(wx.Dialog):
 
 	def onDisableOrEnableButtons(self):
 		if globalVars.appArgs.secure:
-			for item in self.openButton, self.addKeyButton, self.addSubsectionButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.deleteButton:
+			for item in self.openButton, self.addElementButton, self.addGroupButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.findButton, self.deleteButton:
 				item.Disable()
 		else:
-			for item in self.openButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.deleteButton:
+			for item in self.openButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.findButton, self.deleteButton:
 				if len(myConfig.getConfig()[self.section].keys()) == 0:
 					item.Disable()
 				else:
@@ -253,25 +359,40 @@ class MyTopicsDialog(wx.Dialog):
 		choices.sort()
 		index = self.topicsList.Selection
 		item = self.topicsList.GetString(index)
-		dlg = wx.SingleChoiceDialog(parent = self, message = _("Choose the group in {theTopic} topic, where you want to move {element}").format(theTopic = self.topics[0], element = item), caption = _("Move the element"), choices = choices)
+		dlg = wx.SingleChoiceDialog(parent = self,
+		# Translators: The message prompting the user to choose a group to move the element.
+		message = _("Choose the group in {theTopic} topic, where you want to move {element}").format(theTopic = self.topics[0], element = item),
+		# Translators: The caption of the dialog prompting the user to move the element to a group.
+		caption = _("Move the element"),
+		choices = choices)
 		if dlg.ShowModal() == wx.ID_OK:
 			if item in myConfig.getConfig()[self.section][dlg.GetStringSelection()].keys():
-				# Translators: An error displayed when the key already exists.
-				gui.messageBox(message = _("This name already exists. Please choose a different name"), caption = _("Error"), style = wx.OK|wx.ICON_ERROR, parent = self)
+				gui.messageBox(
+				# Translators: An error displayed when the element already exists.
+				message = _("This name already exists. Please choose a different name"),
+				# Translators: the caption of the error message.
+				caption = _("Error"),
+				style = wx.OK|wx.ICON_ERROR, parent = self)
 				return
 			try:
 				myConfig.modifyValue(section = self.section, key = item, value = myConfig.getConfig()[self.section][item], subsection = dlg.GetStringSelection())
 				myConfig.delItem(section = self.section, key = item)
 			except (KeyError, ValueError):
+				gui.messageBox(
 				# Translators: An error displayed when the move fails.
-				gui.messageBox(message = _("Can not move {theItem}.").format(theItem = item),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not move {theItem}.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 			except:
 				log.debugWarning("", exc_info = True)
+				gui.messageBox(
 				# Translators: An error displayed when the move fails.
-				gui.messageBox(message = _("Can not move {theItem}.").format(theItem = item),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not move {theItem}.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 			del (self.itemsList[self.itemsList.index(item)])
 			self.topicsList.Delete(index)
@@ -283,17 +404,29 @@ class MyTopicsDialog(wx.Dialog):
 			self.manageWidgets(self.topicsList.GetSelection())
 			dlg.Destroy()
 
-	def onNewKey(self, evt):
-		NewItemDialog(parent = self, item = self.key).Show()
+	def onNewElement(self, evt):
+		TextEntryDialog(parent = self,
+		# Translators: The title of the edit field.
+		title = _("The element name:"),
+		# Translators: The label of the edit field.
+		fieldLabel = _("Enter your element name"),
+		item = self.element).Show()
 
-	def onNewSubsection(self, evt):
-		NewItemDialog(parent = self, item = self.subsection).Show()
+	def onNewGroup(self, evt):
+		TextEntryDialog(parent = self,
+		# Translators: The title of the edit field.
+		title = _("The group name:"),
+		# Translators: The label of the edit field.
+		fieldLabel = _("Enter your group name"),
+		item = self.group).Show()
 
 	def onDelete(self, evt):
 		if self.topicsList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the topics list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
@@ -312,9 +445,12 @@ class MyTopicsDialog(wx.Dialog):
 			myConfig.delItem(section = self.section, key = key)
 		except:
 			log.debugWarning("", exc_info = True)
-			# Translators: An error displayed when deleting an element fails.
-			gui.messageBox(message = _("Error deleting element."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error message indicating that the deletion cannot be performed.
+			message = _("Error deleting element."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		self.onDisableOrEnableButtons()
 		del self.itemsList[self.itemsList.index(item)]
@@ -328,17 +464,19 @@ class MyTopicsDialog(wx.Dialog):
 		if self.topicsList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the topics list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
 		index = self.topicsList.Selection
 		previousName = self.topicsList.GetString(index)
 		oldName = previousName.split(" (")[0]
-		fieldLabel = _("Rename the key") if not self.isGroup(item = oldName) else _("Rename the group")
-		# Translators: The label of a field to enter a new name for the key or group.
+		# Translators: The label of the edit field prompting the user to rename the group or element.
+		fieldLabel = _("Rename the element") if not self.isGroup(item = oldName) else _("Rename the group")
 		with wx.TextEntryDialog(self, _("New name:"),
-			# Translators: The title of the dialog to rename the key or group.
+			# Translators: The title of the dialog to rename the element or group.
 			fieldLabel, oldName) as d:
 			if d.ShowModal() == wx.ID_CANCEL:
 				return
@@ -346,65 +484,92 @@ class MyTopicsDialog(wx.Dialog):
 		if newName == "":
 			gui.messageBox(
 			# Translators: An error displayed when the field is empty.
-			message = _("You have not specified a new name for this item !"),
+			message = _("You have not specified a value for this field !"),
+			# Translators: The caption of the error message.
 			caption = _("Error"),
 			style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		if newName in myConfig.getConfig()[self.section].keys():
-			# Translators: An error displayed when the key already exists.
-			gui.messageBox(message = _("This name already exists. Please choose a different name"), caption = _("Error"), style = wx.OK|wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error displayed when the element already exists.
+			message = _("This name already exists. Please choose a different name"),
+			# Translators: The caption of the error message.
+			caption = _("Error"),
+			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
 		try:
 			myConfig.renameItem(section = self.section, oldKey = oldName, newKey = newName)
 		except (KeyError, ValueError):
-			# Translators: An error displayed when renaming a key fails.
-			gui.messageBox(message = _("Can not rename this key or group."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error displayed when renaming an element fails.
+			message = _("Can not rename this element or group."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		except:
 			log.debugWarning("", exc_info = True)
-				# Translators: An error displayed when renaming a key fails.
-			gui.messageBox(message = _("Error renaming key or group."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+				# Translators: An error displayed when renaming an element fails.
+			message = _("Error renaming element or group."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		self.itemsList[self.itemsList.index(previousName)] = self.onAddItemInformation(newName)
 		self.topicsList.Set(self.itemsList)
 		self.topicsList.SetSelection(self.topicsList.FindString(self.onAddItemInformation(newName)))
-		self.topicsList.SetFocus()
+		self.topicsList.SetFocus
 
 	def onModifyValue(self, evt):
 		if self.topicsList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the topics list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
 		index = self.topicsList.Selection
 		theKey = self.topicsList.GetString(index)
-		if self.section != "myContacts":
-			# It's not a contact, wee don't need a multiline value.
-			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][theKey])
+		if self.section != "myContacts" and self.section != "myNotes":
+			# It's not a contact or note, wee don't need a multiline value.
+			d = wx.TextEntryDialog(self,
+			# Translators: The label of a field to enter a new value for the element.
+			_("New value:"),
+			# Translators: The title of the edit field prompting the user to enter a new value.
+			_("Modify the value"),
+			myConfig.getConfig()[self.section][theKey])
 		else:
-			# It's a contact, wee need a multiline value.
-			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
+			# It's a contact or note, wee need a multiline value.
+			d = wx.TextEntryDialog(self,
+			# Translators: The label of a field to enter a new value for the element.
+			_("New value:"),
+			# Translators: The title of the edit field prompting the user to enter a new value.
+			_("Modify the value"),
+			myConfig.getConfig()[self.section][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
 		if d.ShowModal() == wx.ID_CANCEL:
 			return
 		newValue = d.Value
 		try:
 			myConfig.modifyValue(section = self.section, key = theKey, value = newValue)
 		except (KeyError, ValueError):
+			gui.messageBox(
 			# Translators: An error displayed when the modification fails.
-			gui.messageBox(message = _("Can not modify the value."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			message = _("Can not modify the value."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		except:
 			log.debugWarning("", exc_info = True)
+			gui.messageBox(
 			# Translators: An error displayed when the modification fails.
-			gui.messageBox(message = _("Can not modify the value."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			message = _("Can not modify the value."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		self.topicsList.Selection = index
 		self.topicsList.SetFocus()
@@ -413,7 +578,9 @@ class MyTopicsDialog(wx.Dialog):
 		if self.topicsList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the topics list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
@@ -435,9 +602,12 @@ class MyTopicsDialog(wx.Dialog):
 					# We run our favorite application.
 					subprocess.Popen(myConfig.getConfig()[self.section][item])
 			except:
+				gui.messageBox(
 				# Translators: An error displayed when opening the file or directory fails.
-				gui.messageBox(message = _("Can not open {theItem}, this file or directory does not exist.").format(theItem = myConfig.getConfig()[self.section][item]),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not open {theItem}, this file or directory does not exist.").format(theItem = myConfig.getConfig()[self.section][item]),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 		elif self.section == "myContacts":
 			# We are looking for a contact.
@@ -445,12 +615,31 @@ class MyTopicsDialog(wx.Dialog):
 			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue) if sys.version_info.major == 2 else "{theName} {theInfos}".format(theName=item, theInfos=theValue)
 			try:
 				# We display the information of the selected contact in a wx.TextCtrl.
-				d = DisplayContactInformationDialog(parent = self, text = information)
+				d = DisplayInformationDialog(parent = self, text = information)
 				d.Show()
 			except:
-			# Translators: An error displayed when opening the contact's information fails.
-				gui.messageBox(message = _("Can not display {theItem}'s information.").format(theItem = item),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				gui.messageBox(
+				# Translators: An error displayed when opening the contact's information fails.
+				message = _("Can not display {theItem}'s information.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
+				return
+		elif self.section == "myNotes":
+			# We are looking for a note.
+			theValue = myConfig.getConfig()[self.section][item]
+			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue) if sys.version_info.major == 2 else "{theName} {theInfos}".format(theName=item, theInfos=theValue)
+			try:
+				# We display the information of the selected note in a wx.TextCtrl.
+				d = DisplayInformationDialog(parent = self, text = information)
+				d.Show()
+			except:
+				gui.messageBox(
+				# Translators: An error displayed when opening the informations of the note fails.
+				message = _("Can not display {theItem}'s information.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 		else:
 			# We are looking for a journal website or a website.
@@ -458,70 +647,142 @@ class MyTopicsDialog(wx.Dialog):
 				# We open our favorite website or journal website.
 				webbrowser.open(myConfig.getConfig()[self.section][item])
 			except:
+				gui.messageBox(
 				# Translators: An error displayed when opening the url website or journal website fails.
-				gui.messageBox(message = _("Can not open the url {theURL}.").format(theURL = myConfig.getConfig()[self.section][item]),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not open the url {theURL}.").format(theURL = myConfig.getConfig()[self.section][item]),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 		# You can comment this line if you prefer to leave the list of items available.
 		#self.Destroy()
+
+	def onFindButton (self, evt):
+		d=TextEntryDialog(parent = self,
+		# Translators: The title of the edit field.
+		title=_("Search a contact:") if self.contact else _("Search a note:"),
+		# Translators: The label of the edit field.
+		fieldLabel = _("Enter some information about the contact that you are looking for") if self.contact else _("Enter some information about the note that you are looking for"),
+		item = 3)
+		d.Show()
 
 	def onClose(self, evt):
 		self.Destroy()
 		MyTopicsDialog._instance = None
 
-class NewItemDialog(wx.Dialog):
+class TextEntryDialog(wx.Dialog):
 
-	def __init__(self, parent, item, noMain = None):
+	def __init__(self, parent, title, fieldLabel, item, noMain = None):
 		self.noMain = noMain
 		self.itemType = item
-		fieldLabel = _("The group name:") if self.itemType == 2 else _("The key name:")
-		# Translators: The title of the dialog to create a new item in the items list.
-		super(NewItemDialog, self).__init__(parent = parent, title = fieldLabel)
+		# Translators: The title of the html message.
+		self.searchResultTitle = _("Search results:")
+		self.search = 3
+		self.googleSearch = 4
+		super(TextEntryDialog, self).__init__(parent = parent, title = title)
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
-		# Translators: The label of a field to enter the name of a new item in the list.
-		sizer.Add(wx.StaticText(self, label = _("Enter the name:")))
+		sizer.Add(wx.StaticText(self, label = fieldLabel))
 		item = self.itemName = wx.TextCtrl(self)
 		sizer.Add(item)
 		mainSizer.Add(sizer)
 		if self.itemType == 1:
 			sizer = wx.BoxSizer(wx.HORIZONTAL)
-			# Translators: The label of a field to enter the value of the new key.
-			sizer.Add(wx.StaticText(self, label = _("Key value:")))
-			if self.Parent.section == "myContacts":
+			sizer.Add(wx.StaticText(self,
+			# Translators: The label of a field to enter the value of the new element.
+			label = _("Element value:")))
+			if self.Parent.section == "myContacts" or self.Parent.section == "myNotes":
 				item = self.itemValue = wx.TextCtrl(self, style = wx.TE_MULTILINE | wx.TE_RICH)
 			else:
 				item = self.itemValue = wx.TextCtrl(self)
 			sizer.Add(item)
 			mainSizer.Add(sizer)
 
-		mainSizer.Add(self.CreateButtonSizer(wx.OK | wx.CANCEL))
-		self.Bind(wx.EVT_BUTTON, self.onOk, id = wx.ID_OK)
+		sizer = wx.BoxSizer(wx.HORIZONTAL)
+		item = self.validateButton = wx.Button(self, id = wx.ID_OK,
+		# Translators: The label of a button to validate the dialog.
+		label = _("&Validate") if self.itemType < self.googleSearch else _("Search and &display in html message"))
+		item.Bind(wx.EVT_BUTTON, self.onValidate)
+		sizer.Add(item)
+		item.SetDefault()
+
+		if self.itemType > 3:
+			item = self.displayInBrowserButton = wx.Button(self,
+			# Translators: The label of a button to display the Google or Youtube result with the browser.
+			label = _("Display on &browser"))
+			item.Bind(wx.EVT_BUTTON, self.onDisplayOnBrowser)
+			sizer.Add(item)
+
+		item = self.cancelButton = wx.Button(self, id = wx.ID_CANCEL,
+		# Translators: The label of a button to cancel the dialog.
+		label = _("&Cancel"))
+		item.Bind(wx.EVT_BUTTON, self.onCancel)
+		sizer.Add(item)
+		mainSizer.Add(sizer)
+		self.Bind(wx.EVT_BUTTON, self.onValidate, id = wx.ID_OK)
 		self.Bind(wx.EVT_BUTTON, self.onCancel, id = wx.ID_CANCEL)
 		mainSizer.Fit(self)
 		self.Sizer = mainSizer
 		self.itemName.SetFocus()
 		self.Center(wx.BOTH | wx.CENTER_ON_SCREEN)
 
-	def onOk(self, evt):
+	def onValidate(self, evt):
 		key = self.itemName.Value
 		if key == "":
 			gui.messageBox(
 			# Translators: An error displayed when the field is empty.
-			message = _("You have not specified a name for this item !"),
+			message = _("You have not specified a value for this field !"),
+			# Translators: The caption of the error message.
 			caption = _("Error"),
 			style = wx.OK | wx.ICON_ERROR, parent = self)
+			return
+		if self.itemType == self.googleSearch:
+			html = ""
+			i = 1
+			query = key.encode("utf-8") if sys.version_info.major == 2 else key
+			for url in search(query, stop=10):
+				a = google_scrape(url)
+				html += '<h3>{0}-<a href="{1}">{2}</a></h3>'.format(str(i), url, a)
+				i += 1
+			queueHandler.queueFunction (queueHandler.eventQueue, ui.browseableMessage, message = html,
+			title = self.searchResultTitle,
+			isHtml = True)
 			return
 		if self.noMain:
 			conf = myConfig.getConfig()[self.Parent.section][self.Parent.subsection]
 		else:
 			conf = myConfig.getConfig()[self.Parent.section]
+		if self.itemType == self.search:
+			infos = ""
+			dct = OrderedDict (sorted(conf.items(), key=lambda x: x[0].lower()))
+			for item in dct:
+				if isinstance(dct[item], configobj.Section):
+					sortedDict = OrderedDict(sorted(conf[item].items(), key=lambda k: k[0].lower()))
+					for element in sortedDict:
+						if key.lower() in element.lower() or key.lower() in sortedDict[element].lower():
+							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
+							infos += u"<h2>{0}</h2>\r\n".format(element)
+							infos += u"<p>{0}</p>\r\n".format(sortedDict[element])
+			for item in dct:
+				if not isinstance(dct[item], configobj.Section):
+					if key.lower() in item.lower() or key.lower() in conf[item].lower():
+						infos += u"<h1>{0}</h1>\r\n".format(item)
+						infos += u"<p>{0}</p>\r\n".format(conf[item])
+			self.Destroy()
+			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
+			title = self.searchResultTitle,
+			isHtml=True)
+			return
 		if key in conf.keys():
-			# Translators: An error displayed when the key or group already exists.
-			gui.messageBox(message = _("This name already exists. Please choose a different name"), caption = _("Error"), style = wx.OK|wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error displayed when the element or group already exists.
+			message = _("This name already exists. Please choose a different name"),
+			# Translators: The caption of the error message.
+			caption = _("Error"),
+			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
 		if not self.noMain:
-			if self.itemType == 2:
+			if self.itemType == self.Parent.group:
 				conf = myConfig.getConfig()
 				sb = conf[self.Parent.section][self.itemName.Value] = {}
 				conf.write()
@@ -542,6 +803,12 @@ class NewItemDialog(wx.Dialog):
 			self.Parent.manageWidgets(self.Parent.keysList.GetSelection())
 			self.Parent.keysList.SetFocus()
 
+	def onDisplayOnBrowser (self, evt):
+		terms = "+".join(self.itemName.Value.split())
+		terms = urllib.quote(terms) if sys.version_info.major == 2 else urllib.parse.quote(terms)
+		url = "http://www.google.fr/search?q={0}&lr=lang_ar&hl=fr&ie=utf-8&oe=utf-8".format(terms)
+		webbrowser.open(url)
+
 	def onCancel(self, evt):
 		self.Destroy()
 
@@ -551,8 +818,9 @@ class MyGroupDialog(wx.Dialog):
 		self.section = section
 		self.subsection = subsection
 
+		super(MyGroupDialog, self).__init__(parent = parent,
 		# Translators: The title of the group dialog.
-		super(MyGroupDialog, self).__init__(parent = parent, title = _("The group {theSubsection} of the {theSection} topic").format(theSubsection = subsection, theSection = parent.topics[0]))
+		title = _("The group {theSubsection} of the {theSection} topic").format(theSubsection = subsection, theSection = parent.topics[0]))
 		self.itemsList = []
 		self.itemsList.extend(myConfig.getConfig()[self.section][self.subsection].keys())
 
@@ -570,40 +838,47 @@ class MyGroupDialog(wx.Dialog):
 		mainSizer.Add(sizer)
 
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
+		item = self.openButton = wx.Button(self,
 		# Translators: The label of a button to open an element in the items list.
-		item = self.openButton = wx.Button(self, label = _("&Open"))
+		label = _("&Open"))
 		item.Bind(wx.EVT_BUTTON, self.onOpen)
 		item.SetDefault()
 		sizer.Add(item)
 
-		# Translators: The label of a button to create a new key in the items list, for the current group
-		item = self.addKeyButton = wx.Button(self, label = _("&Add a new key"))
+		item = self.addKeyButton = wx.Button(self,
+		# Translators: The label of a button to create a new key in the items list, for the current group.
+		label = _("&Add a new element"))
 		item.Bind(wx.EVT_BUTTON, self.onNewKey)
 		sizer.Add(item)
 
+		item = self.renameKeyButton = wx.Button(self,
 		# Translators: The label of a button to rename an element in the items list.
-		item = self.renameKeyButton = wx.Button(self, label = _("&Rename the key"))
+		label = _("&Rename the element"))
 		item.Bind(wx.EVT_BUTTON, self.onRenameKey)
 		sizer.Add(item)
 
-		# Translators: The label of a button to modify the value of a key in the items list.
-		item = self.modifyValueButton = wx.Button(self, label = _("&Modify value"))
+		item = self.modifyValueButton = wx.Button(self,
+		# Translators: The label of a button to modify the value of an element in the items list.
+		label = _("&Modify value"))
 		item.Bind(wx.EVT_BUTTON, self.onModifyValue)
 		sizer.Add(item)
 
-# Translators: The label of a button to move the selected key to a group.
-		item = self.moveButton = wx.Button(self, label = _("Mo&ve to group"))
+		item = self.moveButton = wx.Button(self,
+		# Translators: The label of a button to move the selected element to a group.
+		label = _("Mo&ve to group"))
 		item.Bind(wx.EVT_BUTTON, self.onMoveToGroup)
 		sizer.Add(item)
 
+		item = self.deleteButton = wx.Button(self,
 		# Translators: The label of a button to remove an item in the items list.
-		item = self.deleteButton = wx.Button(self, label = _("&Delete"))
+		label = _("&Delete"))
 		item.Bind(wx.EVT_BUTTON, self.onDelete)
 		sizer.Add(item)
 		mainSizer.Add(sizer)
 
+		item = wx.Button(parent = self, id = wx.ID_CLOSE,
 		# Translators: The label of a button to close the dialog and return to main list.
-		item = wx.Button(parent = self, id = wx.ID_CLOSE, label = _("Re&turn to main list"))
+		label = _("Re&turn to main list"))
 		item.Bind(wx.EVT_BUTTON, lambda evt: self.Close())
 		mainSizer.Add(item)
 
@@ -645,13 +920,20 @@ class MyGroupDialog(wx.Dialog):
 					item.Enable()
 
 	def onNewKey(self, evt):
-		NewItemDialog(parent = self, item = 1, noMain = True).Show()
+		TextEntryDialog(parent = self,
+		# Translators: The title of the edit field.
+		title = _("The element name:"),
+		# Translators: The label of the edit field.
+		fieldLabel = _("Your element name"),
+		item = 1, noMain = True).Show()
 
 	def onDelete(self, evt):
 		if self.keysList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the items list.
 			gui.messageBox(
+			# Translators: An error  message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
@@ -669,9 +951,12 @@ class MyGroupDialog(wx.Dialog):
 			myConfig.delItem(section = self.section, key = key, subsection = self.subsection)
 		except:
 			log.debugWarning("", exc_info = True)
+			gui.messageBox(
 			# Translators: An error displayed when deleting an element fails.
-			gui.messageBox(message = _("Error deleting element."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			message = _("Error deleting element."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		self.onDisableOrEnableButtons()
 		del self.itemsList[self.itemsList.index(key)]
@@ -681,17 +966,19 @@ class MyGroupDialog(wx.Dialog):
 
 	def onRenameKey(self, evt):
 		if self.keysList.Selection == wx.NOT_FOUND:
-			# Translators: An error displayed when no item is selected in the items list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
 		index = self.keysList.Selection
 		oldName = self.keysList.GetString(index)
-		# Translators: The label of a field to enter a new name for the key.
-		with wx.TextEntryDialog(self, _("New name:"),
-				# Translators: The title of the dialog to rename the key.
+		with wx.TextEntryDialog(self,
+		# Translators: The label of a field to enter a new name for the element.
+		_("New name:"),
+				# Translators: The title of the dialog to rename the element.
 				_("Rename the key"), oldName) as d:
 			if d.ShowModal() == wx.ID_CANCEL:
 				return
@@ -699,26 +986,37 @@ class MyGroupDialog(wx.Dialog):
 		if newName == "":
 			gui.messageBox(
 			# Translators: An error displayed when the field is empty.
-			message = _("You have not specified a new name for this key !"),
+			message = _("You have not specified a value for this field!"),
+			# Translators: The caption of the error message.
 			caption = _("Error"),
 			style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		if newName in myConfig.getConfig()[self.section][self.subsection].keys():
-			# Translators: An error displayed when the key already exists.
-			gui.messageBox(message = _("This name already exists. Please choose a different name"), caption = _("Error"), style = wx.OK|wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error displayed when the element already exists.
+			message = _("This name already exists. Please choose a different name"),
+			# Translators: The caption of the error message.
+			caption = _("Error"),
+			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
 		try:
 			myConfig.renameItem(section = self.section, oldKey = oldName, newKey = newName, subsection = self.subsection)
 		except (KeyError, ValueError):
-			# Translators: An error displayed when renaming a key fails.
-			gui.messageBox(message = _("Can not rename this key."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error displayed when renaming an element fails.
+			message = _("Can not rename this element."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		except:
 			log.debugWarning("", exc_info = True)
-				# Translators: An error displayed when renaming a key fails.
-			gui.messageBox(message = _("Error renaming key."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			gui.messageBox(
+			# Translators: An error displayed when renaming an element fails.
+			message = _("Error renaming element."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		self.itemsList[self.itemsList.index(oldName)] = newName
 		self.keysList.Set(self.itemsList)
@@ -729,7 +1027,9 @@ class MyGroupDialog(wx.Dialog):
 		if self.keysList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the items list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
@@ -737,27 +1037,37 @@ class MyGroupDialog(wx.Dialog):
 		theKey = self.keysList.GetString(index)
 		if self.section != "myContacts":
 			# It's not a contact, wee don't need a multiline value.
-			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][self.subsection][theKey])
+			d = wx.TextEntryDialog(self,
+			# Translators: The label of a field to enter a new value for the element.
+			_("New value:"), _("Modify the value"),
+			myConfig.getConfig()[self.section][self.subsection][theKey])
 		else:
 			# It's a contact, wee need a multiline value.
-			# Translators: The label of a field to enter a new value for the key.
-			d = wx.TextEntryDialog(self, _("New value:"), _("Modify the value"), myConfig.getConfig()[self.section][self.subsection][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
+			d = wx.TextEntryDialog(self,
+			# Translators: The label of a field to enter a new value for the element.
+			_("New value:"), _("Modify the value"),
+			myConfig.getConfig()[self.section][self.subsection][theKey], style = wx.TE_MULTILINE | wx.OK | wx.CANCEL)
 		if d.ShowModal() == wx.ID_CANCEL:
 			return
 		newValue = d.Value
 		try:
 			myConfig.modifyValue(section = self.section, key = theKey, value = newValue, subsection = self.subsection)
 		except (KeyError, ValueError):
+			gui.messageBox(
 			# Translators: An error displayed when the modification fails.
-			gui.messageBox(message = _("Can not modify the value."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			message = _("Can not modify the value."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		except:
 			log.debugWarning("", exc_info = True)
+			gui.messageBox(
 			# Translators: An error displayed when the modification fails.
-			gui.messageBox(message = _("Can not modify the value."),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+			message = _("Can not modify the value."),
+			# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 			return
 		self.keysList.Selection = index
 		self.keysList.SetFocus()
@@ -766,7 +1076,9 @@ class MyGroupDialog(wx.Dialog):
 		if self.keysList.Selection == wx.NOT_FOUND:
 			# Translators: An error displayed when no item is selected in the items list.
 			gui.messageBox(
+			# Translators: An error message indicating that no selection has been made.
 			message = _("No selection found ! Please select an item in the list"),
+			# Translators: The caption of the error message.
 			caption = _("No selection"),
 			style = wx.OK|wx.ICON_ERROR, parent = self)
 			return
@@ -784,9 +1096,12 @@ class MyGroupDialog(wx.Dialog):
 					# We run our favorite application.
 					subprocess.Popen(myConfig.getConfig()[self.section][self.subsection][item])
 			except:
+				gui.messageBox(
 				# Translators: An error displayed when opening the file or directory fails.
-				gui.messageBox(message = _("Can not open {theItem}, this file or directory does not exist.").format(theItem = myConfig.getConfig()[self.section][self.subsection][item]),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not open {theItem}, this file or directory does not exist.").format(theItem = myConfig.getConfig()[self.section][self.subsection][item]),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 		elif self.section == "myContacts":
 			theValue = myConfig.getConfig()[self.section][self.subsection][item]
@@ -794,12 +1109,15 @@ class MyGroupDialog(wx.Dialog):
 			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue) if sys.version_info.major == 2 else "{theName} {theInfos}".format(theName=item, theInfos=theValue)
 			try:
 				# We display the information of the selected contact in a wx.TextCtrl.
-				d = DisplayContactInformationDialog(parent = self, text = information)
+				d = DisplayInformationDialog(parent = self, text = information)
 				d.Show()
 			except:
-			# Translators: An error displayed when opening the contact's information fails.
-				gui.messageBox(message = _("Can not display {theItem}'s information.").format(theItem = item),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				gui.messageBox(
+				# Translators: An error displayed when opening the contact's information fails.
+				message = _("Can not display {theItem}'s information.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 		else:
 			# We are looking for a journal website or a website.
@@ -807,9 +1125,12 @@ class MyGroupDialog(wx.Dialog):
 				# We open our favorite website or journal website.
 				webbrowser.open(myConfig.getConfig()[self.section][self.subsection][item])
 			except:
+				gui.messageBox(
 				# Translators: An error displayed when opening the url website or journal website fails.
-				gui.messageBox(message = _("Can not open the url {theURL}.").format(theURL = myConfig.getConfig()[self.section][self.subsection][item]),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not open the url {theURL}.").format(theURL = myConfig.getConfig()[self.section][self.subsection][item]),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 		# You can comment this line if you prefer to leave the list of items available.
 		#self.Destroy()
@@ -819,25 +1140,41 @@ class MyGroupDialog(wx.Dialog):
 		choices.sort()
 		index = self.keysList.Selection
 		item = self.keysList.GetString(index)
-		dlg = wx.SingleChoiceDialog(parent = self, message = _("Choose the group in {theTopic} topic, where you want to move {element}").format(theTopic = self.Parent.topics[0], element = item), caption = _("Move the element"), choices = choices)
+		dlg = wx.SingleChoiceDialog(parent = self,
+		# Translators: A message asking the user to choose a group to move the element to.
+		message = _("Choose the group in {theTopic} topic, where you want to move {element}").format(theTopic = self.Parent.topics[0], element = item),
+		# Translators: The title of the dialog asking the user to move the key.
+		caption = _ ("Move the element"),
+		choices = choices)
 		if dlg.ShowModal() == wx.ID_OK:
 			if item in myConfig.getConfig()[self.section][dlg.GetStringSelection()].keys():
-				# Translators: An error displayed when the key already exists.
-				gui.messageBox(message = _("This name already exists. Please choose a different name"), caption = _("Error"), style = wx.OK|wx.ICON_ERROR, parent = self)
+
+				gui.messageBox(
+				# Translators: An error displayed when the element already exists.
+				message = _("This name already exists. Please choose a different name"),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK|wx.ICON_ERROR, parent = self)
 				return
 			try:
 				myConfig.modifyValue(section = self.section, key = item, value = myConfig.getConfig()[self.section][self.subsection][item], subsection = dlg.GetStringSelection())
 				myConfig.delItem(section = self.section, key = item, subsection = self.subsection)
 			except (KeyError, ValueError):
+				gui.messageBox(
 				# Translators: An error displayed when the move fails.
-				gui.messageBox(message = _("Can not move {theItem}.").format(theItem = item),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not move {theItem}.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 			except:
 				log.debugWarning("", exc_info = True)
+				gui.messageBox(
 				# Translators: An error displayed when the move fails.
-				gui.messageBox(message = _("Can not move {theItem}.").format(theItem = item),
-				caption = _("Error"), style = wx.OK | wx.ICON_ERROR, parent = self)
+				message = _("Can not move {theItem}.").format(theItem = item),
+				# Translators: The caption of the error message.
+				caption = _("Error"),
+				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
 			del (self.itemsList[self.itemsList.index(item)])
 			self.keysList.Delete(index)
@@ -854,22 +1191,25 @@ class MyGroupDialog(wx.Dialog):
 		self.Parent.manageWidgets(self.Parent.topicsList.GetSelection())
 		self.Destroy()
 
-class DisplayContactInformationDialog(wx.Dialog):
+class DisplayInformationDialog(wx.Dialog):
 
 	def __init__(self, parent, text):
-		# Translators: The title of the dialog to display the selected contact information.
-		super(DisplayContactInformationDialog, self).__init__(parent = parent, title = _("Contact's information"))
+		super(DisplayInformationDialog, self).__init__(parent = parent,
+		# Translators: The title of the dialog to display the selected item information.
+		title = _("Information"))
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
-		# Translators: The label of the field that should display the contact's information.
-		sizer.Add(wx.StaticText(self, label = _("Contact's information")))
+		sizer.Add(wx.StaticText(self,
+		# Translators: The label of the field that should display the information.
+		label = _("Information")))
 		item = self.contactInformation = wx.TextCtrl(parent = self, value =text, style = wx.TE_MULTILINE | wx.TE_READONLY | wx.TE_RICH, size = (500, 200))
 		item.SetBackgroundColour(wx.SystemSettings.GetColour(4))
 		sizer.Add(item)
 		item.SetFocus()
 
+		item = wx.Button(parent = self, id = wx.ID_CLOSE,
 		# Translators: The label of a button to close the dialog.
-		item = wx.Button(parent = self, id = wx.ID_CLOSE, label = _("&Close"))
+		label = _("&Close"))
 		item.Bind(wx.EVT_BUTTON, lambda evt: self.Close())
 		sizer.Add(item)
 		self.Bind(wx.EVT_CLOSE, self.onClose)

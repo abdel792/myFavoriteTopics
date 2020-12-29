@@ -1,5 +1,5 @@
 # أقسام المفضلة #
-# الإصدار 3.0 #
+# الإصدار 21.01-dev #
 
 * المطورون : عبد الرحيم, وعبد الله زين الدين, وعبد الكريم.
 * تحميل [الإصدار الجاهز](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0/myFavoriteTopics-3.0.nvda-addon)

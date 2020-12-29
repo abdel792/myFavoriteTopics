@@ -2,7 +2,7 @@
 
 # globalPlugins/myFavoriteTopics/myConfig.py.
 
-# Copyright 2017-2019 Abdelkrim Bensaïd and other contributors, released under gPL.
+# Copyright 2017-2019 Abdelkrim BensaÃ¯d and other contributors, released under gPL.
 #This file is covered by the GNU General Public License.
 #See the file COPYING for more details.
 
