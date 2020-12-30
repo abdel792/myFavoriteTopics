@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: myFavoriteTopics 21.01-dev\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
 "POT-Creation-Date: 2020-12-29 23:26+0100\n"
-"PO-Revision-Date: 2020-12-29 23:32+0100\n"
+"PO-Revision-Date: 2020-12-30 08:48+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -304,8 +304,6 @@ msgstr "Nom de l'élément :"
 
 #. Translators: The label of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:412
-#, fuzzy
-#| msgid "Enter the name:"
 msgid "Enter your element name"
 msgstr "Entrez le nom :"
 
@@ -477,8 +475,6 @@ msgstr "Résultats de la recherche :"
 
 #. Translators: The label of a field to enter the value of the new element.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:693
-#, fuzzy
-#| msgid "New value:"
 msgid "Element value:"
 msgstr "Nouvelle valeur :"
 

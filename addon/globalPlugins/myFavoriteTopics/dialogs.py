@@ -348,11 +348,18 @@ class MyTopicsDialog(wx.Dialog):
 			for item in self.openButton, self.addElementButton, self.addGroupButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.findButton, self.deleteButton:
 				item.Disable()
 		else:
-			for item in self.openButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.findButton, self.deleteButton:
-				if len(myConfig.getConfig()[self.section].keys()) == 0:
-					item.Disable()
-				else:
-					item.Enable()
+			if self.contact or self.notes:
+				for item in self.openButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.findButton, self.deleteButton:
+					if len(myConfig.getConfig()[self.section].keys()) == 0:
+						item.Disable()
+					else:
+						item.Enable()
+			else:
+				for item in self.openButton, self.renameElementButton, self.modifyValueButton, self.moveButton, self.deleteButton:
+					if len(myConfig.getConfig()[self.section].keys()) == 0:
+						item.Disable()
+					else:
+						item.Enable()
 
 	def onMoveToGroup(self, evt):
 		choices = [key for key in myConfig.getSubsectionsFromSection(section = self.section)]
