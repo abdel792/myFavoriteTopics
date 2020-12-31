@@ -17,8 +17,8 @@ def onInstall():
 		f = open (os.path.join(globalVars.appArgs.configPath, CONFIG_FILE_NAME), "a+", encoding = "utf-8")
 		f.seek(0)
 		content = f.read()
-		if "[myNotes]" not in content:
+		if u"[myNotes]" not in content:
 			f.seek(0, 2)
-			f.write ("[myNotes]")
+			f.write (u"[myNotes]")
 		f.close()
 		

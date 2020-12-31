@@ -766,7 +766,7 @@ class TextEntryDialog(wx.Dialog):
 				if isinstance(dct[item], configobj.Section):
 					sortedDict = OrderedDict(sorted(conf[item].items(), key=lambda k: k[0].lower()))
 					for element in sortedDict:
-						if key.lower() in sortedDict[element].lower():
+						if key.lower() in element.lower() or key.lower() in sortedDict[element].lower():
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
 							pos = sortedDict[element].lower().find(key.lower())
@@ -775,7 +775,7 @@ class TextEntryDialog(wx.Dialog):
 							infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][start:end],sortedDict[element][end:])
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
-					if key.lower() in conf[item].lower():
+					if key.lower() in item.lower() or key.lower() in conf[item].lower():
 						pos = conf[item].lower().find(key.lower())
 						start = pos - conf[item][:pos][::-1].find("\n") if "\n" in conf[item][:pos][::-1] else 0
 						end = pos + conf[item][pos:].find("\n") if "\n" in conf[item][pos:] else len (conf[item])
