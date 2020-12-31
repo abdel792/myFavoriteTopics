@@ -769,20 +769,18 @@ class TextEntryDialog(wx.Dialog):
 						if key.lower() in sortedDict[element].lower():
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
-							position = sortedDict[element].lower().find(key.lower())
-							start = sortedDict[element][:position][::-1].find("\n")
-							position -= start
-							br = sortedDict[element][position:].find("\n")
-							infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][position:position+br],sortedDict[element][position+br+1:])
+							pos = sortedDict[element].lower().find(key.lower())
+							start = pos - sortedDict[element][:pos][::-1].find("\n") if "\n" in sortedDict[element][:pos][::-1] else 0
+							end = pos + sortedDict[element][pos:].find("\n") if "\n" in sortedDict[element][pos:] else len (sortedDict[element])
+							infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][start:end],sortedDict[element][end:])
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
 					if key.lower() in conf[item].lower():
-						position = conf[item].lower().find(key.lower())
-						start = conf[item][:position][::-1].find("\n")
-						position -= start
-						br = conf[item][position:].index("\n")
+						pos = conf[item].lower().find(key.lower())
+						start = pos - conf[item][:pos][::-1].find("\n") if "\n" in conf[item][:pos][::-1] else 0
+						end = pos + conf[item][pos:].find("\n") if "\n" in conf[item][pos:] else len (conf[item])
 						infos += u"<h1>{0}</h1>\r\n".format(item)
-						infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][position:position+br], conf[item][position+br:])
+						infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][start:end], conf[item][end:])
 			self.Destroy()
 			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
 			title = self.searchResultTitle,
