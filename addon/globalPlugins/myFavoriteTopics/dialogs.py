@@ -57,6 +57,24 @@ def google_scrape(url):
 	soup = BeautifulSoup(page, "html.parser")
 	return soup.title.text
 
+def deNoise(text):
+	"""
+	From : https://alraqmiyyat.github.io/2013/01-02.html
+	"""
+	
+	noise = re.compile(""" ّ    | # Tashdid
+		َ    | # Fatha
+		ً    | # Tanwin Fath
+		ُ    | # Damma
+		ٌ    | # Tanwin Damm
+		ِ    | # Kasra
+		ٍ    | # Tanwin Kasr
+		ْ    | # Sukun
+		ـ     # Tatwil/Kashida
+		""", re.VERBOSE)
+	text = re.sub(noise, '', text)
+	return text
+
 class MyFavoriteTopicsDialog(wx.Dialog):
 	_instance = None
 
@@ -774,7 +792,7 @@ class TextEntryDialog(wx.Dialog):
 				if isinstance(dct[item], configobj.Section):
 					sortedDict = OrderedDict(sorted(conf[item].items(), key=lambda k: k[0].lower()))
 					for element in sortedDict:
-						if key.lower() in element.lower() or key.lower() in sortedDict[element].lower():
+						if deNoise(key.lower()) in deNoise(element.lower()) or deNoise(key.lower()) in deNoise(sortedDict[element].lower()):
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
 							pos = sortedDict[element].lower().find(key.lower())
@@ -788,7 +806,7 @@ class TextEntryDialog(wx.Dialog):
 								infos += "<pre>{0}</pre>\r\n".format(sortedDict[element])
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
-					if key.lower() in item.lower() or key.lower() in conf[item].lower():
+					if deNoise(key.lower()) in deNoise(item.lower()) or deNoise(key.lower()) in deNoise(conf[item].lower()):
 						infos += u"<h1>{0}</h1>\r\n".format(item)
 						pos = conf[item].lower().find(key.lower())
 						if pos > -1:
@@ -811,13 +829,13 @@ class TextEntryDialog(wx.Dialog):
 				if isinstance(dct[item], configobj.Section):
 					sortedDict = OrderedDict(sorted(conf[item].items(), key=lambda k: k[0].lower()))
 					for element in sortedDict:
-						if key.lower() in element.lower() or key.lower() in sortedDict[element].lower():
+						if deNoise(key.lower()) in deNoise(element.lower()) or deNoise(key.lower()) in deNoise(sortedDict[element].lower()):
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
 							infos += "<pre>{0}</pre>\r\n".format(sortedDict[element])
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
-					if key.lower() in item.lower() or key.lower() in conf[item].lower():
+					if deNoise(key.lower()) in deNoise(item.lower()) or deNoise(key.lower()) in deNoise(conf[item].lower()):
 						infos += u"<h1>{0}</h1>\r\n".format(item)
 						infos += "<pre>{0}</pre>\r\n".format(conf[item])
 			self.Destroy()
