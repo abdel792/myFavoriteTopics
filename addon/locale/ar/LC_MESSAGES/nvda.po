@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: myFavoriteTopics 21.01-dev\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
 "POT-Creation-Date: 2020-12-29 23:26+0100\n"
-"PO-Revision-Date: 2020-12-29 23:31+0100\n"
+"PO-Revision-Date: 2020-12-31 14:36+0100\n"
 "Last-Translator: \n"
 "Language-Team: NVDA add-ons Arabic translation team\n"
 "Language: ar\n"
@@ -286,15 +286,11 @@ msgstr "لا يمكن نقل {theItem}."
 #. Translators: The title of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:410
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:925
-#, fuzzy
-#| msgid "The key name:"
 msgid "The element name:"
-msgstr "اسم المفتاح:"
+msgstr "إسم العنصر:"
 
 #. Translators: The label of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:412
-#, fuzzy
-#| msgid "Enter the name:"
 msgid "Enter your element name"
 msgstr "أَدخِلِ الاسمْ:"
 
@@ -305,8 +301,6 @@ msgstr "اسم المجموعة:"
 
 #. Translators: The label of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:420
-#, fuzzy
-#| msgid "The group name:"
 msgid "Enter your group name"
 msgstr "اسم المجموعة:"
 
@@ -426,8 +420,7 @@ msgstr "لا يمكن فتح {theItem}, هذا الملف أو المجلد غي
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:623
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:639
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:1117
-#, fuzzy, python-brace-format
-#| msgid "Can not display {theItem}'s informations."
+#, python-brace-format
 msgid "Can not display {theItem}'s information."
 msgstr "لا يمكن عرض معلومات {theItem}."
 

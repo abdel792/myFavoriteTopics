@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: myFavoriteTopics 21.01-dev\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
 "POT-Creation-Date: 2020-12-29 23:26+0100\n"
-"PO-Revision-Date: 2020-12-30 08:48+0100\n"
+"PO-Revision-Date: 2020-12-31 14:34+0100\n"
 "Last-Translator: \n"
 "Language-Team: \n"
 "Language: fr\n"
@@ -314,8 +314,6 @@ msgstr "Nom du groupe :"
 
 #. Translators: The label of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:420
-#, fuzzy
-#| msgid "The group name:"
 msgid "Enter your group name"
 msgstr "Nom du groupe :"
 
@@ -514,8 +512,6 @@ msgstr "Re&tourner à la liste principale"
 
 #. Translators: The label of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:927
-#, fuzzy
-#| msgid "Enter the name:"
 msgid "Your element name"
 msgstr "Entrez le nom :"
 
@@ -531,8 +527,6 @@ msgstr "Vous n'avez pas spécifié de valeur pour ce champ !"
 
 #. Translators: An error displayed when renaming an element fails.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:1007
-#, fuzzy
-#| msgid "Can not rename this element or group."
 msgid "Can not rename this element."
 msgstr "Impossible de renommer cette élément ou groupe."
 
