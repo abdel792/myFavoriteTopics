@@ -46,8 +46,14 @@ import random
 import addonHandler
 addonHandler.initTranslation()
 
+#list of fake user agent
+userAgentList=['Mozilla/5.0', 'Safari/537.36', 'Chrome/67.0.3396.99', 'iexplore/11.0.9600.19080', 'Trident/7.0', 'SeaMonkey/2.40', 'Wyzo/3.6.4.1', 'OPR/54.0.2952.64']
+
 def google_scrape(url):
-	page = urllib.urlopen(url) if sys.version_info.major == 2 else urllib.request.urlopen(url)
+	request= urllib2.Request(url) if sys.version_info.major == 2 else urllib.request.Request(url)
+	request.add_header('User-Agent', random.choice(userAgentList))
+	handle = urllib2.urlopen(request) if sys.version_info.major == 2 else urllib.request.urlopen(request)
+	page= handle.read().decode('utf-8')
 	soup = BeautifulSoup(page, "html.parser")
 	return soup.title.text
 
@@ -130,7 +136,7 @@ class MyFavoriteTopicsDialog(wx.Dialog):
 		title = _("Enter your search"),
 		# Translators: The label of the edit field.
 		fieldLabel = _("Search:"),
-		item = 4).Show()
+		item = 5).Show()
 		evt.Skip()
 
 	def onDisplayWebsites(self, evt):
@@ -670,7 +676,7 @@ class MyTopicsDialog(wx.Dialog):
 		title=_("Search a contact:") if self.contact else _("Search a note:"),
 		# Translators: The label of the edit field.
 		fieldLabel = _("Enter some information about the contact that you are looking for") if self.contact else _("Enter some information about the note that you are looking for"),
-		item = 3)
+		item = 3 if self.contact else 4)
 		d.Show()
 
 	def onClose(self, evt):
@@ -684,8 +690,9 @@ class TextEntryDialog(wx.Dialog):
 		self.itemType = item
 		# Translators: The title of the html message.
 		self.searchResultTitle = _("Search results:")
-		self.search = 3
-		self.googleSearch = 4
+		self.searchContact = 3
+		self.searchNote = 4
+		self.googleSearch = 5
 		super(TextEntryDialog, self).__init__(parent = parent, title = title)
 		mainSizer = wx.BoxSizer(wx.VERTICAL)
 		sizer = wx.BoxSizer(wx.HORIZONTAL)
@@ -713,7 +720,7 @@ class TextEntryDialog(wx.Dialog):
 		sizer.Add(item)
 		item.SetDefault()
 
-		if self.itemType > 3:
+		if self.itemType > 4:
 			item = self.displayInBrowserButton = wx.Button(self,
 			# Translators: The label of a button to display the Google or Youtube result with the browser.
 			label = _("Display on &browser"))
@@ -747,7 +754,7 @@ class TextEntryDialog(wx.Dialog):
 			html = ""
 			i = 1
 			query = key.encode("utf-8") if sys.version_info.major == 2 else key
-			for url in search(query, stop=10):
+			for url in search(query, stop=20):
 				a = google_scrape(url)
 				html += '<h3>{0}-<a href="{1}">{2}</a></h3>'.format(str(i), url, a)
 				i += 1
@@ -759,7 +766,7 @@ class TextEntryDialog(wx.Dialog):
 			conf = myConfig.getConfig()[self.Parent.section][self.Parent.subsection]
 		else:
 			conf = myConfig.getConfig()[self.Parent.section]
-		if self.itemType == self.search:
+		if self.itemType == self.searchContact:
 			infos = ""
 			found = False
 			dct = OrderedDict (sorted(conf.items(), key=lambda x: x[0].lower()))
@@ -791,6 +798,28 @@ class TextEntryDialog(wx.Dialog):
 							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][start:end], conf[item][end:])
 						else:
 							infos += "<pre>{0}</pre>\r\n".format(conf[item])
+			self.Destroy()
+			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
+			title = self.searchResultTitle,
+			isHtml=True)
+			return
+		if self.itemType == self.searchNote:
+			infos = ""
+			found = False
+			dct = OrderedDict (sorted(conf.items(), key=lambda x: x[0].lower()))
+			for item in dct:
+				if isinstance(dct[item], configobj.Section):
+					sortedDict = OrderedDict(sorted(conf[item].items(), key=lambda k: k[0].lower()))
+					for element in sortedDict:
+						if key.lower() in element.lower() or key.lower() in sortedDict[element].lower():
+							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
+							infos += u"<h2>{0}</h2>\r\n".format(element)
+							infos += "<pre>{0}</pre>\r\n".format(sortedDict[element])
+			for item in dct:
+				if not isinstance(dct[item], configobj.Section):
+					if key.lower() in item.lower() or key.lower() in conf[item].lower():
+						infos += u"<h1>{0}</h1>\r\n".format(item)
+						infos += "<pre>{0}</pre>\r\n".format(conf[item])
 			self.Destroy()
 			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
 			title = self.searchResultTitle,

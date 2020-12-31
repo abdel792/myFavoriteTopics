@@ -46,6 +46,22 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 		d.Show(True)
 		gui.mainFrame.postPopup()
 
+	def onSearchOnGoogleDialog (self, evt):
+		if gui.isInMessageBox:
+			return
+		gui.mainFrame.prePopup()
+		d = dialogs.TextEntryDialog (parent = gui.mainFrame,
+		# Translators: The title of the edit field.
+		title = _("Enter your search"),
+		# Translators: The label of the edit field.
+		fieldLabel = _("Search:"),
+		item = 4)
+		d.Show(True)
+		gui.mainFrame.postPopup()
+
+	def script_searchOnGoogle(self, gesture):
+		wx.CallAfter (self.onSearchOnGoogleDialog, gui.mainFrame)
+
 	def script_myPreferredSites(self, gesture):
 		wx.CallAfter (self.selectItemInList, section="mySites")
 
@@ -57,7 +73,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	def script_myContacts(self, gesture):
 		wx.CallAfter (self.selectItemInList, section="myContacts")
-	
+
+	def script_myNotes(self, gesture):
+		wx.CallAfter (self.selectItemInList, section="myNotes")
 
 	def script_activateMyFavoriteTopicsDialog(self, gesture):
 		wx.CallAfter(self.onMyFavoriteTopicsDialog, gui.mainFrame)
@@ -72,7 +90,9 @@ class GlobalPlugin(globalPluginHandler.GlobalPlugin):
 
 	# Translators: Message presented in input help mode.
 	script_activateMyFavoriteTopicsDialog.__doc__=_("Allows you to display the dialog box to select uour favorite topics.")
+	script_searchOnGoogle.__doc__=_("Allows you to display the dialog box to do a search on Google or Youtube.")
 	script_myPreferredSites.__doc__=_("Allows you to display a dialog box to select your favorite websites")
 	script_myApps.__doc__=_("Allows you to display a dialog box to select your favorite applications or directories")
 	script_myContacts.__doc__=_("Allows you to display a dialog box to select your favorite contacts")
+	script_myNotes.__doc__=_("Allows you to display a dialog box to select your saved notes")
 	script_myNews.__doc__=_("Allows you to display a dialog box to select your favorite journal websites")

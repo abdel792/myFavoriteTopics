@@ -1,18 +1,20 @@
 # Mes rubriques favorites #
-# Version 21.01-dev #
+# Version 21.01 #
 
 * Auteurs : Abderrahim, Abdellah, Abdelkrim.
-* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0/myFavoriteTopics-3.0.nvda-addon)
-* télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v3.0-dev/myFavoriteTopics-3.0-dev.nvda-addon)
+* télécharger [version stable](https://github.com/abdel792/myFavoriteTopics/releases/download/v21.01/myFavoriteTopics-21.01.nvda-addon)
+* télécharger [version de développement](https://github.com/abdel792/myFavoriteTopics/releases/download/v21.01-dev/myFavoriteTopics-21.01-dev.nvda-addon)
 
 Cette extension devrait vous permettre d'afficher et de consulter vos rubriques favorites.
 
 Elle devrait ajouter un item dans le menu "Outils" de NVDA intitulé "Mes rubriques favorites", qui devrait vous ouvrir une boîte de dialogue composée de 5 boutons :
 
+* Un bouton "Rechercher sur Google ou Youtube", pour afficher une boîte de dialogue vous permettant de réaliser des recherches sur Google ou Youtube.
 * Un bouton "Afficher mes sites web favoris", pour afficher la liste de vos sites web favoris.
 * Un bouton "Afficher mes applications favorites", pour afficher la liste de vos applications et répertoires favoris présents sur votre PC.
 * Un bouton "Afficher mes contacts favoris", pour afficher la liste de vos contacts favoris.
 * Un bouton "Afficher mes journaux favoris", pour afficher la liste de vos journaux favoris.
+* Un bouton "Afficher mes notes", pour afficher la liste de vos notes enregistrées.
 * Un bouton "Fermer", pour refermer la boîte de dialogue.
 
 ## Notes ##
@@ -27,11 +29,12 @@ Lorsque vous presser sur l'un des boutons correspondant à une rubrique, vous de
 * Une liste d'items, parmi lesquels vous pourrez circuler avec vos flèches verticales.
 * Un bouton "Ouvrir", qui devrait vous permettre d'accéder au contenu de l'item sélectionné dans la liste.
 * Un bouton "Ajouter un nouveau groupe", qui devrait vous permettre d'ajouter un nouveau groupe dans la liste.
-* Un bouton "Ajouter une nouvelle clé", qui devrait vous permettre d'ajouter une nouvelle clé dans la liste.
+* Un bouton "Ajouter un nouvel élément", qui devrait vous permettre d'ajouter un nouvel élément dans la liste.
 * Un bouton "Renommer le groupe", qui devrait vous permettre de renommer le groupe sélectionné dans la liste. (Cet item ne s'affiche que si l'élément sélectionné est un groupe)
-* Un bouton "Renommer la clé", qui devrait vous permettre de renommer la clé sélectionnée dans la liste. (Cet item ne s'affiche que si l'élément sélectionné est une clé)
-* Un bouton "Modifier la valeur", qui devrait vous permettre de modifier la valeur de la clé correspondant à l'item sélectionné dans la listge. (Cet item ne s'affiche que si l'élément sélectionné est une clé)
-* Un bouton "Déplacer vers un groupe", qui devrait vous permettre de déplacer la clé sélectionnée dans la liste vers un groupe. (Cet item ne s'affiche que si l'élément sélectionné est une clé)
+* Un bouton "Renommer l'élément", qui devrait vous permettre de renommer l'élément sélectionnée dans la liste.
+* Un bouton "Modifier la valeur", qui devrait vous permettre de modifier la valeur de l'élément correspondant à l'item sélectionné dans la liste.
+* Un bouton "Déplacer vers un groupe", qui devrait vous permettre de déplacer l'élément sélectionnée dans la liste vers un groupe.
+* Un bouton "Rechercher", qui devrait vous permettre de réaliser une recherche dans la rubrique courante. (Cet item n'est disponible que dans les rubriques Contacts et Notes).
 * Un bouton "Supprimer", qui devrait vous permettre de supprimer l'élément sélectionné dans la liste. Si l'élément est un groupe, tout le contenu de ce groupe sera supprimé.
 * Un bouton "Fermer", pour refermer la boîte de dialogue.
 
@@ -39,9 +42,16 @@ Lorsque vous presser sur l'un des boutons correspondant à une rubrique, vous de
 
 * Vous pourrez presser la touche d'échappement pour refermer chacune de ces boîtes de dialogue, et revenir ainsi à la boîte de dialogue présentant les boutons d'accès aux rubriques.
 * Lorsque vous circulez dans la liste des items, si vous êtes sur un groupe, son nom devrait être suffixé par le terme (Groupe).
-* Si vous ouvrez un groupe, vous devriez atterrir dans la liste des clés que contient ce groupe.
+* Si vous ouvrez un groupe, vous devriez atterrir dans la liste des éléments que contient ce groupe.
 * Vous pourrez assigner un raccourci clavier pour ouvrir chacune des  boîtes de dialogue citées dans les chapitres précédents, dans le menu "Gestes de commandes" et plus précisément, dans la catégorie "Outils".
-* Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter un groupe"", ""Ajouter une clé"" et "Fermer" sont proposés."
+* Lorsqu'aucun item n'est présent dans la liste, seuls les bouton "Ajouter un groupe"", ""Ajouter un élément"" et "Fermer" sont proposés."
+
+## Changement pour la version 21.01 ##
+
+* Changement de la numérotation des versions de l'extension en citant l'année et le mois.
+* Ajout d'une rubrique pour enregistrer ses notes;
+* Ajout de la possibilité de réaliser des recherches sur Google ou Youtube;
+* Ajout de la possibilité de faire des recherches parmi ses contacts ou notes.
 
 ## Changement pour la version 3.0 ##
 
