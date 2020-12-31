@@ -761,6 +761,7 @@ class TextEntryDialog(wx.Dialog):
 			conf = myConfig.getConfig()[self.Parent.section]
 		if self.itemType == self.search:
 			infos = ""
+			found = False
 			dct = OrderedDict (sorted(conf.items(), key=lambda x: x[0].lower()))
 			for item in dct:
 				if isinstance(dct[item], configobj.Section):
@@ -770,17 +771,26 @@ class TextEntryDialog(wx.Dialog):
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
 							pos = sortedDict[element].lower().find(key.lower())
-							start = pos - sortedDict[element][:pos][::-1].find("\n") if "\n" in sortedDict[element][:pos][::-1] else 0
-							end = pos + sortedDict[element][pos:].find("\n") if "\n" in sortedDict[element][pos:] else len (sortedDict[element])
-							infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][start:end],sortedDict[element][end:])
+							if pos > -1:
+								found = True
+								start = pos - sortedDict[element][:pos][::-1].find("\n") if "\n" in sortedDict[element][:pos][::-1] else 0
+								end = pos + sortedDict[element][pos:].find("\n") if "\n" in sortedDict[element][pos:] else len (sortedDict[element])
+								infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][start:end],sortedDict[element][end:])
+								found = False
+							else:
+								infos += "<pre>{0}</pre>\r\n".format(sortedDict[element])
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
 					if key.lower() in item.lower() or key.lower() in conf[item].lower():
-						pos = conf[item].lower().find(key.lower())
-						start = pos - conf[item][:pos][::-1].find("\n") if "\n" in conf[item][:pos][::-1] else 0
-						end = pos + conf[item][pos:].find("\n") if "\n" in conf[item][pos:] else len (conf[item])
 						infos += u"<h1>{0}</h1>\r\n".format(item)
-						infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][start:end], conf[item][end:])
+						pos = conf[item].lower().find(key.lower())
+						if pos > -1:
+							found = True
+							start = pos - conf[item][:pos][::-1].find("\n") if "\n" in conf[item][:pos][::-1] else 0
+							end = pos + conf[item][pos:].find("\n") if "\n" in conf[item][pos:] else len (conf[item])
+							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][start:end], conf[item][end:])
+						else:
+							infos += "<pre>{0}</pre>\r\n".format(conf[item])
 			self.Destroy()
 			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
 			title = self.searchResultTitle,
