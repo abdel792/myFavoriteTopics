@@ -1173,17 +1173,17 @@ class MyGroupDialog(wx.Dialog):
 				caption = _("Error"),
 				style = wx.OK | wx.ICON_ERROR, parent = self)
 				return
-		elif self.section == "myContacts":
+		elif self.section == "myContacts" or self.section == "myNotes":
 			theValue = myConfig.getConfig()[self.section][self.subsection][item]
-			# We are looking for a contact.
+			# We are looking for a contact or a note.
 			information = unicode("{theName} {theInfos}", "utf-8").format(theName=item, theInfos=theValue) if sys.version_info.major == 2 else "{theName} {theInfos}".format(theName=item, theInfos=theValue)
 			try:
-				# We display the information of the selected contact in a wx.TextCtrl.
+				# We display the information of the selected contact or note in a wx.TextCtrl.
 				d = DisplayInformationDialog(parent = self, text = information)
 				d.Show()
 			except:
 				gui.messageBox(
-				# Translators: An error displayed when opening the contact's information fails.
+				# Translators: An error displayed when opening the contact's or note information fails.
 				message = _("Can not display {theItem}'s information.").format(theItem = item),
 				# Translators: The caption of the error message.
 				caption = _("Error"),
