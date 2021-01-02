@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: myFavoriteTopics 21.01\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
 "POT-Creation-Date: 2020-12-31 17:54+0100\n"
-"PO-Revision-Date: 2020-12-31 21:30+0100\n"
+"PO-Revision-Date: 2021-01-02 23:38+0100\n"
 "Last-Translator: \n"
 "Language-Team: NVDA add-ons Arabic translation team\n"
 "Language: ar\n"
@@ -495,7 +495,7 @@ msgstr "إلغائ"
 
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:777
 msgid "Group:"
-msgstr "مجموعة :"
+msgstr "مجموع :مجموعة :"
 
 #. Translators: The title of the group dialog.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:852

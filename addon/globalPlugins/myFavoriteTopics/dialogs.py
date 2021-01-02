@@ -9,6 +9,7 @@
 import wx
 import re
 import configobj
+from logHandler import log
 from collections import OrderedDict
 import sys
 import os
@@ -62,7 +63,7 @@ def deNoise(text):
 	From : https://alraqmiyyat.github.io/2013/01-02.html
 	"""
 	
-	noise = re.compile(""" ّ    | # Tashdid
+	noise = re.compile(u""" ّ    | # Tashdid
 		َ    | # Fatha
 		ً    | # Tanwin Fath
 		ُ    | # Damma
@@ -71,8 +72,8 @@ def deNoise(text):
 		ٍ    | # Tanwin Kasr
 		ْ    | # Sukun
 		ـ     # Tatwil/Kashida
-		""", re.VERBOSE)
-	text = re.sub(noise, '', text)
+		""", re.U | re.VERBOSE)
+	text = re.sub(noise, u'', text, re.U)
 	return text
 
 class MyFavoriteTopicsDialog(wx.Dialog):
@@ -792,30 +793,63 @@ class TextEntryDialog(wx.Dialog):
 				if isinstance(dct[item], configobj.Section):
 					sortedDict = OrderedDict(sorted(conf[item].items(), key=lambda k: k[0].lower()))
 					for element in sortedDict:
-						if deNoise(key.lower()) in deNoise(element.lower()) or deNoise(key.lower()) in deNoise(sortedDict[element].lower()):
+						if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(element), re.I | re.U):
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
-							pos = sortedDict[element].lower().find(key.lower())
-							if pos > -1:
-								found = True
-								start = pos - sortedDict[element][:pos][::-1].find("\n") if "\n" in sortedDict[element][:pos][::-1] else 0
-								end = pos + sortedDict[element][pos:].find("\n") if "\n" in sortedDict[element][pos:] else len (sortedDict[element])
-								infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][start:end],sortedDict[element][end:])
-								found = False
-							else:
-								infos += "<pre>{0}</pre>\r\n".format(sortedDict[element])
+							i = 0
+							content = []
+							suite = sortedDict[element].split("\n")
+							for line in suite:
+								content.append(line)
+								i += 1
+								if i == 3:
+									break
+							infos += u"<pre>{0}</pre>\r\n".format("\r\n".join(content))
+						if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(sortedDict[element]), re.I | re.U):
+							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
+							infos += u"<h2>{0}</h2>\r\n".format(element)
+							for m in re.finditer (u"\\b" + deNoise(key) + u"\\b", deNoise(sortedDict[element]), re.I | re.U):
+								start = m.start()
+								end = m.end()
+								startOfLine = start - sortedDict[element][:start][::-1].find("\n") if sortedDict[element][:start][::-1].find("\n") != -1 else 0
+								endOfLine = end + sortedDict[element][end:].find("\n") if sortedDict[element][end:].find("\n") != -1 else len(sortedDict[element])
+								i = 0
+								content = []
+								suite = sortedDict[element][endOfLine+1:].split("\n")
+								for line in suite:
+									content.append(line)
+									i += 1
+									if i == 3:
+										break
+								infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][startOfLine:endOfLine], "\r\n".join(content))
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
-					if deNoise(key.lower()) in deNoise(item.lower()) or deNoise(key.lower()) in deNoise(conf[item].lower()):
+					if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(item), re.I | re.U):
 						infos += u"<h1>{0}</h1>\r\n".format(item)
-						pos = conf[item].lower().find(key.lower())
-						if pos > -1:
-							found = True
-							start = pos - conf[item][:pos][::-1].find("\n") if "\n" in conf[item][:pos][::-1] else 0
-							end = pos + conf[item][pos:].find("\n") if "\n" in conf[item][pos:] else len (conf[item])
-							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][start:end], conf[item][end:])
-						else:
-							infos += "<pre>{0}</pre>\r\n".format(conf[item])
+						i = 0
+						content = []
+						suite = conf[item].split("\n")
+						for line in suite:
+							content.append(line)
+							i += 1
+							if i == 5:
+								break
+						infos += u"<pre>{0}</pre>\r\n".format("\r\n".join(content))
+					if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(conf[item]), re.I | re.U):
+						for m in re.finditer (r"\n" + deNoise(key) + r"\n", deNoise(conf[item]), re.I | re.U):
+							start = m.start()
+							end = m.end()
+							startOfLine = start - conf[item][::-1].find("\n") if conf[item][::-1].find("\n") != -1 else 0
+							endOfLine = end + conf[item].find("\n") if conf[item][::-1].find("\n") != -1 else len(conf[item])
+							i = 0
+							content = []
+							suite = sortedDict[element][endOfLine:].split("\n")
+							for line in suite:
+								content.append(line)
+								i += 1
+								if i == 4:
+									break
+							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][startOfLine:endOfLine], "\r\n".join(content))
 			self.Destroy()
 			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
 			title = self.searchResultTitle,
@@ -832,12 +866,12 @@ class TextEntryDialog(wx.Dialog):
 						if deNoise(key.lower()) in deNoise(element.lower()) or deNoise(key.lower()) in deNoise(sortedDict[element].lower()):
 							infos += u"<h1>{0} {1}</h1>\r\n".format(_("Group:"), item)
 							infos += u"<h2>{0}</h2>\r\n".format(element)
-							infos += "<pre>{0}</pre>\r\n".format(sortedDict[element])
+							infos += u"<pre>{0}</pre>\r\n".format(sortedDict[element])
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
 					if deNoise(key.lower()) in deNoise(item.lower()) or deNoise(key.lower()) in deNoise(conf[item].lower()):
 						infos += u"<h1>{0}</h1>\r\n".format(item)
-						infos += "<pre>{0}</pre>\r\n".format(conf[item])
+						infos += u"<pre>{0}</pre>\r\n".format(conf[item])
 			self.Destroy()
 			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
 			title = self.searchResultTitle,
