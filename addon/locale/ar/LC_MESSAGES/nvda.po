@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: myFavoriteTopics 21.01\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
 "POT-Creation-Date: 2020-12-31 17:54+0100\n"
-"PO-Revision-Date: 2021-01-02 23:38+0100\n"
+"PO-Revision-Date: 2021-01-04 00:39+0100\n"
 "Last-Translator: \n"
 "Language-Team: NVDA add-ons Arabic translation team\n"
 "Language: ar\n"
@@ -469,15 +469,13 @@ msgstr "نتائج البحث"
 
 #. Translators: The label of a field to enter the value of the new element.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:706
-#, fuzzy
-#| msgid "New value:"
 msgid "Element value:"
-msgstr "محتوى جديد:"
+msgstr "محتوى العنصر:"
 
 #. Translators: The label of a button to validate the dialog.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:717
 msgid "&Validate"
-msgstr "تحقيق"
+msgstr "ت&سجيل"
 
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:717
 msgid "Search and &display in html message"
@@ -491,7 +489,7 @@ msgstr "العرض على المتصفح"
 #. Translators: The label of a button to cancel the dialog.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:731
 msgid "&Cancel"
-msgstr "إلغائ"
+msgstr "إل&غاء"
 
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:777
 msgid "Group:"
@@ -510,10 +508,8 @@ msgstr "ال&رجوع إلى القائمة الرئيسية"
 
 #. Translators: The label of the edit field.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:956
-#, fuzzy
-#| msgid "Enter the name:"
 msgid "Your element name"
-msgstr "أَدخِلِ الاسمْ:"
+msgstr "أَدخِلِ الاسمْ:أَدخِلِ الاسمْ:"
 
 #. Translators: The title of the dialog to rename the element.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:1011

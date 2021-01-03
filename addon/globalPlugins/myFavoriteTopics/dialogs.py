@@ -63,15 +63,15 @@ def deNoise(text):
 	From : https://alraqmiyyat.github.io/2013/01-02.html
 	"""
 	
-	noise = re.compile(u""" ّ    | # Tashdid
-		َ    | # Fatha
-		ً    | # Tanwin Fath
-		ُ    | # Damma
-		ٌ    | # Tanwin Damm
-		ِ    | # Kasra
-		ٍ    | # Tanwin Kasr
-		ْ    | # Sukun
-		ـ     # Tatwil/Kashida
+	noise = re.compile(u"""ّ|# Tashdid
+		َ|# Fatha
+		ً|# Tanwin Fath
+		ُ|# Damma
+		ٌ|# Tanwin Damm
+		ِ|# Kasra
+		ٍ|# Tanwin Kasr
+		ْ|# Sukun
+		ـ# Tatwil/Kashida
 		""", re.U | re.VERBOSE)
 	text = re.sub(noise, u'', text, re.U)
 	return text
@@ -811,17 +811,17 @@ class TextEntryDialog(wx.Dialog):
 							for m in re.finditer (u"\\b" + deNoise(key) + u"\\b", deNoise(sortedDict[element]), re.I | re.U):
 								start = m.start()
 								end = m.end()
-								startOfLine = start - sortedDict[element][:start][::-1].find("\n") if sortedDict[element][:start][::-1].find("\n") != -1 else 0
-								endOfLine = end + sortedDict[element][end:].find("\n") if sortedDict[element][end:].find("\n") != -1 else len(sortedDict[element])
+								startOfLine = start - deNoise(sortedDict[element])[:start][::-1].find("\n") if deNoise(sortedDict[element])[:start][::-1].find("\n") != -1 else 0
+								endOfLine = end + deNoise(sortedDict[element])[end:].find("\n") if deNoise(sortedDict[element])[end:].find("\n") != -1 else len(sortedDict[element])
 								i = 0
 								content = []
-								suite = sortedDict[element][endOfLine+1:].split("\n")
+								suite = deNoise(sortedDict[element])[endOfLine:].split("\n")
 								for line in suite:
 									content.append(line)
 									i += 1
 									if i == 3:
 										break
-								infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(sortedDict[element][startOfLine:endOfLine], "\r\n".join(content))
+								infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(deNoise(sortedDict[element])[startOfLine:endOfLine], "\r\n".join(content))
 			for item in dct:
 				if not isinstance(dct[item], configobj.Section):
 					if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(item), re.I | re.U):
@@ -843,7 +843,7 @@ class TextEntryDialog(wx.Dialog):
 							endOfLine = end + conf[item].find("\n") if conf[item][::-1].find("\n") != -1 else len(conf[item])
 							i = 0
 							content = []
-							suite = sortedDict[element][endOfLine:].split("\n")
+							suite = sortedDict[element][endOfLine+2:].split("\n")
 							for line in suite:
 								content.append(line)
 								i += 1
@@ -1139,14 +1139,14 @@ class MyGroupDialog(wx.Dialog):
 			return
 		index = self.keysList.Selection
 		theKey = self.keysList.GetString(index)
-		if self.section != "myContacts":
-			# It's not a contact, wee don't need a multiline value.
+		if self.section != "myContacts" and self.section != "myNotes":
+			# It's not a contact or note, wee don't need a multiline value.
 			d = wx.TextEntryDialog(self,
 			# Translators: The label of a field to enter a new value for the element.
 			_("New value:"), _("Modify the value"),
 			myConfig.getConfig()[self.section][self.subsection][theKey])
 		else:
-			# It's a contact, wee need a multiline value.
+			# It's a contact or note, wee need a multiline value.
 			d = wx.TextEntryDialog(self,
 			# Translators: The label of a field to enter a new value for the element.
 			_("New value:"), _("Modify the value"),
