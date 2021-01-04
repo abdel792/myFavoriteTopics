@@ -3,7 +3,7 @@ msgstr ""
 "Project-Id-Version: myFavoriteTopics 21.01\n"
 "Report-Msgid-Bugs-To: 'nvda-translations@freelists.org'\n"
 "POT-Creation-Date: 2020-12-31 17:54+0100\n"
-"PO-Revision-Date: 2021-01-04 00:39+0100\n"
+"PO-Revision-Date: 2021-01-04 07:44+0100\n"
 "Last-Translator: \n"
 "Language-Team: NVDA add-ons Arabic translation team\n"
 "Language: ar\n"
@@ -101,7 +101,7 @@ msgstr "عرض ال&جرائد المفضلة"
 #. Translators: The label of a button to display the list of the saved notes.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:110
 msgid "Display my &notes"
-msgstr "عرض المذكرات"
+msgstr "عرض الم&ذكرات"
 
 #. Translators: The label of a button to close the dialog.
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:117
@@ -182,7 +182,7 @@ msgstr "إضافة م&جموعة جديدة"
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:255
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:879
 msgid "&Add a new element"
-msgstr "إضافة عنصر جديد"
+msgstr "إضافة ع&نصر جديد"
 
 #. Translators: The label of a button to rename an element in the topics list.
 #. Translators: The label of the button for renaming the element.
@@ -216,7 +216,7 @@ msgstr "ب&حث"
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:286
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:903
 msgid "&Delete"
-msgstr "&حَذف"
+msgstr "إ&زالة"
 
 #: addon\globalPlugins\myFavoriteTopics\dialogs.py:311
 msgid "(Group)"
