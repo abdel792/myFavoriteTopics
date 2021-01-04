@@ -802,7 +802,7 @@ class TextEntryDialog(wx.Dialog):
 							for line in suite:
 								content.append(line)
 								i += 1
-								if i == 3:
+								if i == 6:
 									break
 							infos += u"<pre>{0}</pre>\r\n".format("\r\n".join(content))
 						if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(sortedDict[element]), re.I | re.U):
@@ -819,7 +819,7 @@ class TextEntryDialog(wx.Dialog):
 								for line in suite:
 									content.append(line)
 									i += 1
-									if i == 3:
+									if i == 6:
 										break
 								infos += u"<h3>{0}</h3><pre>{1}</pre>\r\n".format(deNoise(sortedDict[element])[startOfLine:endOfLine], "\r\n".join(content))
 			for item in dct:
@@ -832,7 +832,7 @@ class TextEntryDialog(wx.Dialog):
 						for line in suite:
 							content.append(line)
 							i += 1
-							if i == 5:
+							if i == 6:
 								break
 						infos += u"<pre>{0}</pre>\r\n".format("\r\n".join(content))
 					if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(conf[item]), re.I | re.U):
@@ -847,7 +847,7 @@ class TextEntryDialog(wx.Dialog):
 							for line in suite:
 								content.append(line)
 								i += 1
-								if i == 4:
+								if i == 6:
 									break
 							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][startOfLine:endOfLine], "\r\n".join(content))
 			self.Destroy()
