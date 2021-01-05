@@ -812,7 +812,7 @@ class TextEntryDialog(wx.Dialog):
 								start = m.start()
 								end = m.end()
 								startOfLine = start - deNoise(sortedDict[element])[:start][::-1].find("\n") if deNoise(sortedDict[element])[:start][::-1].find("\n") != -1 else 0
-								endOfLine = end + deNoise(sortedDict[element])[end:].find("\n") if deNoise(sortedDict[element])[end:].find("\n") != -1 else len(sortedDict[element])
+								endOfLine = end + deNoise(sortedDict[element])[end:].find("\n") if deNoise(sortedDict[element])[end:].find("\n") != -1 else len(deNoise(sortedDict[element]))
 								i = 0
 								content = []
 								suite = deNoise(sortedDict[element])[endOfLine:].split("\n")
@@ -836,20 +836,21 @@ class TextEntryDialog(wx.Dialog):
 								break
 						infos += u"<pre>{0}</pre>\r\n".format("\r\n".join(content))
 					if re.search (u"\\b" + deNoise(key) + u"\\b", deNoise(conf[item]), re.I | re.U):
-						for m in re.finditer (r"\n" + deNoise(key) + r"\n", deNoise(conf[item]), re.I | re.U):
+						infos += u"<h1>{0}</h1>\r\n".format(item)
+						for m in re.finditer ("\\b" + deNoise(key) + "\\b", deNoise(conf[item]), re.I | re.U):
 							start = m.start()
 							end = m.end()
-							startOfLine = start - conf[item][::-1].find("\n") if conf[item][::-1].find("\n") != -1 else 0
-							endOfLine = end + conf[item].find("\n") if conf[item][::-1].find("\n") != -1 else len(conf[item])
+							startOfLine = start - deNoise(conf[item])[:start][::-1].find("\n") if deNoise(conf[item])[:start][::-1].find("\n") != -1 else 0
+							endOfLine = end + deNoise(conf[item])[end:].find("\n") if deNoise(conf[item])[end:].find("\n") != -1 else len(deNoise(conf[item]))
 							i = 0
 							content = []
-							suite = sortedDict[element][endOfLine+2:].split("\n")
+							suite = deNoise(conf[item])[endOfLine:].split("\n")
 							for line in suite:
 								content.append(line)
 								i += 1
 								if i == 6:
 									break
-							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(conf[item][startOfLine:endOfLine], "\r\n".join(content))
+							infos += u"<h2>{0}</h2><pre>{1}</pre>\r\n".format(deNoise(conf[item])[startOfLine:endOfLine], "\r\n".join(content))
 			self.Destroy()
 			queueHandler.queueFunction(queueHandler.eventQueue, ui.browseableMessage, message=infos,
 			title = self.searchResultTitle,
